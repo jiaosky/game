@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>一杯到底 · 倒水解谜</title>
 <style>
 :root{
@@ -10,7 +10,8 @@
   --ink:#5b4432; --muted:#9a8066;
   --gold:#c89b3c; --gold2:#e0bd6f;
   --card:#fff9ee; --line:#d8c39a;
-  --danger:#b3543f;
+  --danger:#b3543f; --green:#1f9d6b;
+  --wood1:#7a4c28; --wood2:#5f3a1e;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;}
@@ -18,8 +19,9 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
   color:var(--ink);
   background:
-    radial-gradient(1100px 560px at 50% -8%, #fff6e3 0%, rgba(255,246,227,0) 62%),
-    linear-gradient(160deg,#f8efdd 0%, #eed9b6 55%, #e3ca9f 100%);
+    radial-gradient(1200px 620px at 50% -10%, #fff7e6 0%, rgba(255,247,230,0) 62%),
+    radial-gradient(900px 520px at 108% 108%, rgba(214,170,105,.30) 0%, rgba(214,170,105,0) 60%),
+    linear-gradient(160deg,#f9f0de 0%, #eed9b6 55%, #e4cba1 100%);
   min-height:100vh;
   user-select:none;
   -webkit-user-select:none;
@@ -30,64 +32,86 @@ body{
 .screen.active{display:flex;flex-direction:column;gap:14px;}
 
 /* start screen */
-.hero{text-align:center;margin-top:16px;}
-h1{font-size:40px;letter-spacing:3px;color:#7a5a2e;margin:0;text-shadow:0 2px 0 #fff,0 3px 10px rgba(160,120,60,.18);}
+.hero{text-align:center;margin-top:14px;}
+h1{font-size:40px;letter-spacing:4px;color:#7a5a2e;margin:0;
+  text-shadow:0 2px 0 #fff,0 4px 14px rgba(160,120,60,.20);}
 .subtitle{color:var(--muted);margin:8px 0 0;font-size:14px;letter-spacing:2px;}
 .diffs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
 .diff{
-  background:linear-gradient(180deg,#fffaf0,#f6ead2);
-  border:2px solid var(--line);border-radius:14px;padding:12px 11px;text-align:left;
-  color:var(--ink);cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.04);transition:transform .08s ease,border-color .12s ease;
+  background:linear-gradient(180deg,#fffaf0,#f5e8cd);
+  border:2px solid var(--line);border-radius:16px;padding:13px 12px;text-align:left;
+  color:var(--ink);cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 8px rgba(150,110,60,.10);
+  transition:transform .08s ease,border-color .12s ease,box-shadow .12s ease;
 }
 .diff:active{transform:scale(.97);}
-.diff.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,155,60,.18);}
+.diff.selected{border-color:var(--gold);box-shadow:inset 0 1px 0 #fff,0 0 0 3px rgba(200,155,60,.18),0 4px 10px rgba(150,110,60,.12);}
 .diff .dn{display:block;font-size:17px;font-weight:800;}
-.diff .dd{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.35;}
+.diff .dd{display:block;font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
 
-.btn{
-  border:0;border-radius:14px;padding:14px 18px;font-size:17px;font-weight:800;cursor:pointer;
-  letter-spacing:1px;transition:transform .08s ease,filter .12s ease;
-}
+.btn{border:0;border-radius:15px;padding:14px 18px;font-size:17px;font-weight:800;cursor:pointer;
+  letter-spacing:1px;transition:transform .08s ease,filter .12s ease;}
 .btn:active{transform:scale(.97);}
-.btn:disabled{opacity:.4;cursor:not-allowed;}
-.primary{background:linear-gradient(180deg,#e6c377,#c89b3c);color:#4a3414;box-shadow:0 4px 0 #a97f2d,0 6px 14px rgba(160,120,50,.28);}
-.ghost{background:linear-gradient(180deg,#fffaf0,#f1e3c6);color:var(--ink);border:2px solid var(--line);box-shadow:0 2px 0 rgba(0,0,0,.05);}
-.small{padding:8px 11px;font-size:14px;border-radius:10px;}
-.hint-line{color:var(--muted);font-size:12px;text-align:center;margin:0;}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.3);}
+.primary{background:linear-gradient(180deg,#f0d28a,#c89b3c);color:#4a3414;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 4px 0 #a97f2d,0 8px 16px rgba(160,120,50,.30);}
+.ghost{background:linear-gradient(180deg,#fffaf0,#f1e3c6);color:var(--ink);border:2px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 5px rgba(0,0,0,.05);}
+.small{padding:8px 11px;font-size:14px;border-radius:11px;}
+.hint-line{color:var(--muted);font-size:12px;text-align:center;margin:0;line-height:1.5;}
 
 /* game screen */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.level{font-weight:800;font-size:15px;}
+.level{font-weight:800;font-size:14px;background:linear-gradient(180deg,#fffaf0,#f2e4c8);
+  border:2px solid var(--line);border-radius:999px;padding:6px 14px;box-shadow:inset 0 1px 0 #fff;}
 .steps-row{text-align:center;color:var(--muted);font-size:13px;letter-spacing:1px;}
-.steps-row b{font-size:20px;color:var(--ink);margin:0 3px;}
+.steps-row b{font-size:21px;color:var(--ink);margin:0 3px;}
 .board-wrap{width:100%;display:flex;justify-content:center;}
-canvas{display:block;border-radius:16px;background:linear-gradient(180deg,rgba(255,252,243,.7),rgba(240,224,193,.55));box-shadow:inset 0 0 0 1px rgba(200,170,120,.35),0 8px 24px rgba(150,110,60,.12);}
+canvas{
+  display:block;border-radius:22px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 2px, rgba(0,0,0,0) 2px 7px),
+    linear-gradient(180deg, var(--wood1) 0%, var(--wood2) 100%);
+  box-shadow:inset 0 0 0 1px rgba(60,35,15,.65),inset 0 2px 10px rgba(0,0,0,.28),0 14px 34px rgba(90,55,20,.30);
+}
 .status{min-height:22px;text-align:center;color:var(--danger);font-size:13.5px;font-weight:700;}
 .props{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:2px;}
 .prop{
-  background:linear-gradient(180deg,#fffaf0,#f6ead2);border:2px solid var(--line);border-radius:13px;
-  padding:9px 4px 8px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;
-  box-shadow:0 2px 0 rgba(0,0,0,.04);
+  background:linear-gradient(180deg,#fffaf0,#f5e8cd);border:2px solid var(--line);border-radius:15px;
+  padding:10px 4px 9px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 8px rgba(150,110,60,.10);
 }
 .prop:active{transform:scale(.96);}
-.prop:disabled{opacity:.38;cursor:not-allowed;}
-.prop .ico{font-size:22px;line-height:1;}
+.prop:disabled{opacity:.36;cursor:not-allowed;filter:grayscale(.35);}
+.prop .ico{font-size:24px;line-height:1;}
 .prop .pname{font-size:12px;font-weight:800;}
 .prop .pcnt{font-size:10.5px;color:var(--gold);font-weight:900;}
 .prop.danger{background:linear-gradient(180deg,#fdf6f2,#f3ddd3);border-color:#e0b7a5;color:var(--danger);}
 
 /* modal */
-.modal{position:fixed;inset:0;background:rgba(70,50,30,.42);display:none;align-items:center;justify-content:center;padding:24px;z-index:20;}
+.modal{position:fixed;inset:0;background:rgba(70,50,30,.45);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:24px;z-index:20;}
 .modal.show{display:flex;}
 .modal-card{
-  background:linear-gradient(180deg,#fffaf0,#f7ecd6);border:2px solid var(--gold2);border-radius:20px;
-  padding:26px 24px;text-align:center;width:100%;max-width:360px;box-shadow:0 18px 50px rgba(90,60,20,.35);
+  background:linear-gradient(180deg,#fffaf0,#f6ead2);border:2px solid var(--gold2);border-radius:22px;
+  padding:28px 24px;text-align:center;width:100%;max-width:360px;
+  box-shadow:inset 0 1px 0 #fff,0 20px 60px rgba(90,60,20,.38);
 }
 .modal-card h2{margin:0 0 10px;color:#7a5a2e;}
-.stars{font-size:34px;letter-spacing:6px;color:#e6b33c;text-shadow:0 2px 0 #fff;}
+.stars{font-size:36px;letter-spacing:7px;color:#e6b33c;text-shadow:0 2px 0 #fff;}
 .muted{color:var(--muted);font-size:13.5px;margin:10px 0 18px;}
 .modal-actions{display:flex;gap:10px;justify-content:center;}
 .modal-actions .btn{flex:1;}
+
+@media (max-width: 390px){
+  #app{padding:10px 8px 22px;}
+  h1{font-size:32px;letter-spacing:3px;}
+  .diffs{gap:8px;}
+  .diff{padding:10px 9px;}
+  .diff .dn{font-size:15.5px;}
+  .props{gap:6px;}
+  .prop .ico{font-size:21px;}
+  .btn{padding:13px 16px;font-size:16px;}
+}
 </style>
 </head>
 <body>
@@ -99,8 +123,9 @@ canvas{display:block;border-radius:16px;background:linear-gradient(180deg,rgba(2
     </div>
     <div class="diffs" id="difficultyList"></div>
     <button class="btn primary" id="startBtn" disabled>开始游戏</button>
-    <p class="hint-line">难度由颜色数、隐藏色块、试管数量综合评定</p>
+    <p class="hint-line">难度由颜色数、隐藏杯子、试管数量综合评定</p>
     <button class="btn ghost small" id="selfCheckBtn">自检：验证每关必有解</button>
+    <p class="hint-line" id="selfCheckResult"></p>
   </section>
 
   <section id="gameScreen" class="screen">
@@ -137,9 +162,10 @@ canvas{display:block;border-radius:16px;background:linear-gradient(180deg,rgba(2
 'use strict';
 /* ================= 常量与纯逻辑 ================= */
 const CAP = 4;
-const MAX_TUBES = 16;
-const PALETTE = ['#e5484d','#f97316','#f59e0b','#eab308','#84cc16','#22c55e','#14b8a6','#06b6d4','#3b82f6','#8b5cf6','#a855f7','#ec4899','#f43f5e','#0ea5e9'];
-const HIDDEN_COLOR = '#9aa0a6';
+const MAX_TUBES = 18;
+/* 14 色，颜色采样时尽量拉开色相 */
+const PALETTE = ['#e53935','#fb8c00','#fdd835','#43a047','#00897b','#1e88e5','#8e24aa','#ec407a','#8d6e63','#455a64'];
+const HIDDEN_COLOR = '#8a8f98';
 
 function randInt(min, max){ return min + Math.floor(Math.random() * (max - min + 1)); }
 function shuffle(arr){
@@ -163,32 +189,36 @@ function canPourInt(tubes, a, b){
   if(a === b || !tubes[a].length) return null;
   const r = topRunInt(tubes[a]);
   const free = CAP - tubes[b].length;
-  if(free < r.len) return null;                 /* 必须能容纳整段 */
+  if(free <= 0) return null;
   if(tubes[b].length && tubes[b][tubes[b].length-1] !== r.color) return null;
-  return {color:r.color, len:r.len};
+  return {color:r.color, len:r.len, amount:Math.min(r.len, free)};
 }
 function applyInt(tubes, a, b){
   const nt = tubes.map(t => t.slice());
-  const r = topRunInt(nt[a]);
-  for(let i = 0; i < r.len; i++){ nt[a].pop(); nt[b].push(r.color); }
+  const r = canPourInt(nt, a, b);
+  if(!r) return nt;
+  for(let i = 0; i < r.amount; i++){ nt[a].pop(); nt[b].push(r.color); }
   return nt;
 }
 function canonInt(tubes){ return tubes.map(t => t.join('')).sort().join('|'); }
 function isSolvedInt(tubes){
   return tubes.every(t => !t.length || (t.length === CAP && t.every(x => x === t[0])));
 }
+function hasReadyTube(tubes){
+  return tubes.some(t => t.length === CAP && t.every(x => x === t[0]));
+}
 function scoreMoveInt(tubes, a, b, r){
   let s = 0;
   const d = tubes[b];
-  if(d.length && d[d.length-1] === r.color && d.length + r.len === CAP) s += 8; /* 一次倒满 */
+  if(d.length && d[d.length-1] === r.color && d.length + r.amount === CAP) s += 8;
   if(!d.length) s -= 2; else if(d[d.length-1] === r.color) s += 4;
-  if(!d.length && r.len === tubes[a].length) s -= 4;                           /* 纯搬运价值低 */
-  s += r.len;
+  if(!d.length && r.amount === tubes[a].length) s -= 4;
+  s += r.amount;
   return s;
 }
 
-/* 求解器：带记忆的启发式 DFS，仅用于“验证有解 + 提示一步” */
-function solve(tubes, budget, maxDepth){
+/* 求解器：启发式 DFS。locked=当前不可用的管索引集合（隐藏杯） */
+function solve(tubes, budget, maxDepth, locked){
   const visited = new Set();
   let nodes = 0;
   function dfs(state, depth, prevA, prevB){
@@ -202,8 +232,10 @@ function solve(tubes, budget, maxDepth){
     const moves = [];
     for(let a = 0; a < state.length; a++){
       if(!state[a].length) continue;
+      if(locked && locked.has(a)) continue;
       for(let b = 0; b < state.length; b++){
         if(a === b || (a === prevB && b === prevA)) continue;
+        if(locked && locked.has(b)) continue;
         const r = canPourInt(state, a, b);
         if(r) moves.push({a, b, r, s: scoreMoveInt(state, a, b, r)});
       }
@@ -232,45 +264,105 @@ function randomState(colors, empties){
   return tubes;
 }
 
-/* 生成：只接受“求解器验证有解”的布局 */
+/* 确定性兜底：两色交错，无“已成管” */
+function shiftState(colors, empties){
+  const tubes = [];
+  for(let i = 0; i < colors; i++) tubes.push([i, (i + 1) % colors, i, (i + 1) % colors]);
+  for(let e = 0; e < empties; e++) tubes.push([]);
+  return tubes;
+}
+
+/* 生成：只接受“求解器验证有解、且开局无已成水管”的布局 */
 function generate(colors, empties){
   const budget = 2000000, maxDepth = 300, maxAttempts = 200;
   for(let a = 0; a < maxAttempts; a++){
     const st = randomState(colors, empties);
-    if(isSolvedInt(st)) continue;
+    if(isSolvedInt(st) || hasReadyTube(st)) continue;
     const r = solve(st, budget, maxDepth);
     if(r.res && r.res !== 'BUDGET') return {state: st, solution: r.res};
   }
-  /* 兜底（实测 2 空管不会走到）：把第一种颜色拆进两根空管，仍保证可解 */
-  console.warn('随机生成未成功，启用兜底构造');
-  const st = [];
-  for(let c = 0; c < colors; c++) st.push([c, c, c, c]);
-  st.push([], []);
-  st[0] = [0, 0];
-  st[colors] = [0, 0];
-  return {state: st, solution: [{a: colors, b: 0}]};
+  for(let a = 0; a < 30; a++){
+    const st = randomState(colors, empties);
+    if(isSolvedInt(st) || hasReadyTube(st)) continue;
+    const r = solve(st, 8000000, 500);
+    if(r.res && r.res !== 'BUDGET') return {state: st, solution: r.res};
+  }
+  const st = shiftState(colors, empties);
+  const r = solve(st, 8000000, 500);
+  if(r.res && r.res !== 'BUDGET') return {state: st, solution: r.res};
+  console.error('无法生成有解关卡');
+  return null;
 }
 
-/* 难度配置：难度 = 颜色数 + 隐藏色块 + 试管数量 综合 */
+/* 颜色采样：把 C 个逻辑色均匀映射到调色板，尽量拉开色相 */
+function buildColorMap(colors){
+  const map = [];
+  for(let k = 0; k < colors; k++){
+    const idx = colors === 1 ? 0 : Math.round(k * (PALETTE.length - 1) / (colors - 1));
+    map.push(idx);
+  }
+  return map;
+}
+
+/* 隐藏杯分配：沿完整解回放，记录每根管“首次被使用前已消除的杯数”，据此锁定后置杯 */
+function assignLocks(gen, maxLocked){
+  const N = gen.state.length;
+  let state = gen.state.map(t => t.slice());
+  const firstUse = new Array(N).fill(-1);
+  const unlockAt = new Array(N).fill(0);
+  const cleared = new Set();
+  let clearCount = 0;
+  for(const m of gen.solution){
+    if(firstUse[m.a] === -1){ firstUse[m.a] = 1; unlockAt[m.a] = clearCount; }
+    if(firstUse[m.b] === -1){ firstUse[m.b] = 1; unlockAt[m.b] = clearCount; }
+    const ns = applyInt(state, m.a, m.b);
+    state = ns;
+    for(let ti = 0; ti < N; ti++){
+      if(!cleared.has(ti) && state[ti].length === CAP && state[ti].every(x => x === state[ti][0])){
+        cleared.add(ti); clearCount++;
+      }
+    }
+  }
+  const cands = [];
+  for(let ti = 0; ti < N; ti++){
+    if(gen.state[ti].length && unlockAt[ti] >= 1) cands.push({ti, total: unlockAt[ti]});
+  }
+  cands.sort((x, y) => y.total - x.total || y.ti - x.ti);
+  return cands.slice(0, Math.max(0, maxLocked)).map(p => ({ti:p.ti, total:p.total, remaining:p.total}));
+}
+
+/* 难度配置：难度 = 颜色数 + 隐藏杯子 + 试管数量 综合 */
 const DIFFS = [
-  {key:'nuofu',    name:'懦夫',   cMin:3,  cMax:4,  hMin:0, hMax:0, empties:2, desc:'入门 · 颜色少、无隐藏'},
-  {key:'caigou',   name:'菜狗',   cMin:5,  cMax:6,  hMin:1, hMax:2, empties:2, desc:'轻松 · 少量隐藏色块'},
-  {key:'benben',   name:'笨笨',   cMin:7,  cMax:9,  hMin:3, hMax:4, empties:2, desc:'困难 · 颜色多、隐藏多'},
-  {key:'tianlong', name:'天龙人', cMin:10, cMax:12, hMin:5, hMax:7, empties:2, desc:'极难 · 满配颜色与隐藏'},
+  {key:'nuofu',    name:'懦夫',   cMin:4,  cMax:5,  hMin:0, hMax:0, lockMin:0, lockMax:0, empties:2, desc:'入门 · 颜色少'},
+  {key:'caigou',   name:'菜狗',   cMin:6,  cMax:7,  hMin:1, hMax:3, lockMin:1, lockMax:1, empties:2, desc:'轻松 · 隐藏色 + 1 隐藏杯'},
+  {key:'benben',   name:'笨笨',   cMin:8,  cMax:9,  hMin:3, hMax:6, lockMin:2, lockMax:2, empties:2, desc:'困难 · 隐藏色多 + 2 隐藏杯'},
+  {key:'tianlong', name:'天龙人', cMin:10, cMax:10, hMin:6, hMax:10, lockMin:3, lockMax:4, empties:2, desc:'极难 · 满配颜色/隐藏色/隐藏杯'},
 ];
 
-/* 可玩态：色块 = {color, hidden}；隐藏色块只在“非管顶”位置生效 */
-function makePlayable(intTubes, hiddenCount){
-  const tubes = intTubes.map(t => t.map(c => ({color:c, hidden:false})));
+/* 可玩态：色块 = {color, hidden} */
+function makePlayable(intTubes){
+  return intTubes.map(t => t.map(c => ({color:c, hidden:false})));
+}
+
+/* 隐藏色：从杯底向上连续隐藏；lockedSet 内的隐藏杯不参与 */
+function applyHiddenColors(tubes, lockedSet, total){
+  let placed = 0;
   const cands = [];
   for(let ti = 0; ti < tubes.length; ti++){
-    for(let idx = 0; idx < tubes[ti].length - 1; idx++) cands.push({ti, idx});
+    if(lockedSet.has(ti)) continue;
+    if(tubes[ti].length >= 2) cands.push(ti);
   }
-  const cs = shuffle(cands);
-  for(let k = 0; k < Math.min(hiddenCount, cs.length); k++){
-    tubes[cs[k].ti][cs[k].idx].hidden = true;
+  if(!cands.length) return;
+  const order = shuffle(cands);
+  for(let guard = 0; guard < total * 5 + 10 && placed < total; guard++){
+    const ti = order[Math.floor(Math.random() * order.length)];
+    const t = tubes[ti];
+    let hiddenCount = 0;
+    for(const c of t) if(c.hidden) hiddenCount++;
+    if(hiddenCount >= t.length - 1) continue;
+    t[hiddenCount].hidden = true;
+    placed++;
   }
-  return tubes;
 }
 
 /* ================= 可玩态倒水逻辑 ================= */
@@ -285,28 +377,27 @@ function canPourCells(tubes, a, b){
   if(a === b || !tubes[a].length) return null;
   const r = topRunCells(tubes[a]);
   const free = CAP - tubes[b].length;
-  if(free < r.len) return null;
+  if(free <= 0) return null;
   if(tubes[b].length && tubes[b][tubes[b].length-1].color !== r.color) return null;
-  return {color:r.color, len:r.len};
+  return {color:r.color, len:r.len, amount:Math.min(r.len, free)};
 }
 function applyCellMove(tubes, a, b){
-  const r = topRunCells(tubes[a]);
-  for(let i = 0; i < r.len; i++){
+  const r = canPourCells(tubes, a, b);
+  for(let i = 0; i < r.amount; i++){
     const cell = tubes[a].pop();
     cell.hidden = false;
     tubes[b].push(cell);
   }
-  if(tubes[a].length) tubes[a][tubes[a].length-1].hidden = false; /* 新管顶揭晓 */
+  if(tubes[a].length) tubes[a][tubes[a].length - 1].hidden = false;
   return r;
 }
-function isSolvedCells(tubes){
-  return tubes.every(t => !t.length || (t.length === CAP && t.every(c => c.color === t[0].color)));
-}
-function hasAnyMove(tubes){
+function hasAnyMove(tubes, locked){
   for(let a = 0; a < tubes.length; a++){
     if(!tubes[a].length) continue;
+    if(locked && locked.has(a)) continue;
     for(let b = 0; b < tubes.length; b++){
       if(a === b) continue;
+      if(locked && locked.has(b)) continue;
       if(canPourCells(tubes, a, b)) return true;
     }
   }
@@ -327,12 +418,14 @@ const $ = id => document.getElementById(id);
 const boardCanvas = $('board');
 const ctx = boardCanvas.getContext('2d');
 
+function cloneLocks(m){ const n = new Map(); m.forEach((v,k) => n.set(k, {total:v.total, remaining:v.remaining})); return n; }
+function lockedSet(){ return game ? new Set(game.locks.keys()) : new Set(); }
+
 function setStatus(msg){
   $('statusMsg').textContent = msg;
   clearTimeout(statusTimer);
   if(msg) statusTimer = setTimeout(() => { $('statusMsg').textContent = ''; }, 2800);
 }
-
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
@@ -369,17 +462,27 @@ function startGame(){
   showScreen('gameScreen');
   newLevel();
 }
-
 function nextLevel(){ game.level++; newLevel(); }
 
 function newLevel(){
   const diff = game.diff;
   const C = randInt(diff.cMin, diff.cMax);
-  const H = randInt(diff.hMin, diff.hMax);
-  const gen = generate(C, diff.empties);
+  const lockMax = randInt(diff.lockMin, diff.lockMax);
+  let gen = null, locks = [];
+  for(let attempt = 0; attempt < 60; attempt++){
+    gen = generate(C, diff.empties);
+    if(!gen) break;
+    locks = assignLocks(gen, lockMax);
+    if(locks.length >= diff.lockMin) break;
+  }
   if(!gen){ setStatus('生成失败，请重试'); return; }
-  const initial = makePlayable(gen.state, H);
-  game.C = C; game.H = H;
+  const initial = makePlayable(gen.state);
+  const H = randInt(diff.hMin, diff.hMax);
+  const lockedIdx = new Set(locks.map(l => l.ti));
+  applyHiddenColors(initial, lockedIdx, H);
+  game.C = C;
+  game.H = H;
+  game.colorMap = buildColorMap(C);
   game.initial = deepCloneTubes(initial);
   game.tubes = deepCloneTubes(initial);
   game.solution = gen.solution;
@@ -387,10 +490,15 @@ function newLevel(){
   game.steps = 0;
   game.history = [];
   game.props = {tube:1, hint:1, undo:1};
+  game.cleared = new Set();
+  game.fx = {};
+  game.revealFx = {};
+  game.locks = new Map(locks.map(l => [l.ti, {total:l.total, remaining:l.total}]));
+  game.initialLocks = cloneLocks(game.locks);
   selected = null; hintMove = null; anim = null;
   updateHUD();
   layout();
-  setStatus('第 ' + game.level + ' 关 · ' + C + ' 色 · 隐藏 ' + H + ' · 共 ' + game.tubes.length + ' 管');
+  setStatus('第 ' + game.level + ' 关 · ' + C + ' 色 · 隐藏杯 ' + game.locks.size + ' · 隐藏色 ' + H + ' · 共 ' + game.tubes.length + ' 管');
 }
 
 function updateHUD(){
@@ -411,6 +519,28 @@ function updateHUD(){
   });
 }
 
+function isWin(){
+  return game.tubes.every((t, i) => !t.length || game.cleared.has(i));
+}
+function markCleared(){
+  const newly = [];
+  for(let i = 0; i < game.tubes.length; i++){
+    const t = game.tubes[i];
+    if(!game.cleared.has(i) && t.length === CAP && t.every(c => c.color === t[0].color)){
+      game.cleared.add(i);
+      game.fx[i] = performance.now();
+      newly.push(i);
+    }
+  }
+  for(const _ of newly){
+    game.locks.forEach((l, ti) => { l.remaining--; });
+  }
+  const reveal = [];
+  game.locks.forEach((l, ti) => { if(l.remaining <= 0) reveal.push(ti); });
+  reveal.forEach(ti => { game.locks.delete(ti); game.revealFx[ti] = performance.now(); });
+  return newly.length > 0;
+}
+
 /* ================= 绘制 ================= */
 function roundRect(x, y, w, h, r){
   if(w <= 0 || h <= 0) return;
@@ -423,23 +553,26 @@ function roundRect(x, y, w, h, r){
   ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
 }
+function hexToRgb(hex){ const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function shade(hex, amt){
+  const c = hexToRgb(hex);
+  const f = v => Math.max(0, Math.min(255, Math.round(v + amt * 255)));
+  return 'rgb(' + f(c[0]) + ',' + f(c[1]) + ',' + f(c[2]) + ')';
+}
+function colorOf(c){ return PALETTE[game.colorMap[c % game.colorMap.length]]; }
 
 function layout(){
   const wrap = boardCanvas.parentElement;
-  const cssW = Math.min(560, Math.max(300, wrap.clientWidth || 360));
+  const cssW = wrap.clientWidth || 360;
   const T = game.tubes.length;
-  let cols;
-  if(T <= 6) cols = T;
-  else if(T <= 8) cols = 4;
-  else if(T <= 10) cols = 5;
-  else if(T <= 12) cols = 6;
-  else cols = 7;
+  const cols = Math.min(7, Math.max(3, Math.ceil(T / 2)));
   const rows = Math.ceil(T / cols);
-  const gapX = 12, padX = 20, padY = 18, gapY = 16;
+  const padX = 10, padY = 14, gapX = 10, gapY = 12;
   const availW = cssW - padX * 2;
-  const tubeW = Math.max(36, Math.floor((availW - (cols - 1) * gapX) / cols));
-  const segH = Math.max(9, Math.round(tubeW * 0.30));
-  const tubeH = CAP * segH + 12;
+  const tubeW = Math.min(132, Math.max(28, Math.floor((availW - (cols - 1) * gapX) / cols)));
+  const segH = Math.round(tubeW * 0.34);
+  const neck = 10;
+  const tubeH = neck + 10 + CAP * segH;
   const cssH = padY * 2 + rows * (tubeH + gapY) - gapY;
   const dpr = window.devicePixelRatio || 1;
   boardCanvas.style.width = cssW + 'px';
@@ -452,62 +585,142 @@ function layout(){
   const startX = (cssW - totalW) / 2;
   for(let i = 0; i < T; i++){
     const r = Math.floor(i / cols), c = i % cols;
-    tubeRects.push({
-      x: startX + c * (tubeW + gapX),
-      y: padY + r * (tubeH + gapY),
-      w: tubeW, h: tubeH, segH
-    });
+    tubeRects.push({x: startX + c * (tubeW + gapX), y: padY + r * (tubeH + gapY), w: tubeW, h: tubeH, segH});
   }
   draw();
 }
 
-function drawSegment(sx, sy, sw, sh, colorIdx, hidden){
-  roundRect(sx, sy, sw, sh, Math.min(5, sh / 2));
+function drawSegment(sx, sy, sw, sh, color, hidden){
   if(hidden){
+    roundRect(sx, sy, sw, sh, Math.min(5, sh / 2));
     ctx.fillStyle = HIDDEN_COLOR;
     ctx.fill();
     ctx.fillStyle = '#5f6672';
-    ctx.font = 'bold ' + Math.max(9, Math.round(sh * 0.62)) + 'px sans-serif';
+    ctx.font = 'bold ' + Math.max(9, Math.round(sh * 0.6)) + 'px sans-serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('?', sx + sw / 2, sy + sh / 2 + 1);
-  } else {
-    ctx.fillStyle = PALETTE[colorIdx % PALETTE.length];
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,.30)';
-    roundRect(sx + 2, sy + 1.5, sw - 4, Math.max(2, sh * 0.22), 2);
-    ctx.fill();
+    return;
   }
+  const g = ctx.createLinearGradient(sx, sy, sx, sy + sh);
+  g.addColorStop(0, shade(color, 0.30));
+  g.addColorStop(0.45, color);
+  g.addColorStop(1, shade(color, -0.24));
+  roundRect(sx, sy, sw, sh, Math.min(5, sh / 2));
+  ctx.fillStyle = g;
+  ctx.fill();
+  ctx.fillStyle = 'rgba(0,0,0,.08)';
+  roundRect(sx, sy + sh - Math.max(1.5, sh * 0.16), sw, Math.max(1.5, sh * 0.16), 2);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.34)';
+  roundRect(sx + 2, sy + 1.5, sw - 4, Math.max(2, sh * 0.24), 3);
+  ctx.fill();
 }
 
-function drawTube(r, tube, ti){
+function drawTubeBody(r, tube, ti){
   const neck = 10;
   const bodyY = r.y + neck;
   const bodyH = r.h - neck;
-  const isSel = selected === ti;
-  const hintA = hintMove && hintMove.a === ti;
-  const hintB = hintMove && hintMove.b === ti;
-  const isHint = hintA || hintB;
-  if(isSel || isHint){
-    roundRect(r.x - 3, bodyY - 3, r.w + 6, bodyH + 6, 12);
-    ctx.fillStyle = isSel ? 'rgba(230,179,60,.20)' : 'rgba(34,160,107,.16)';
-    ctx.fill();
-  }
-  roundRect(r.x, bodyY, r.w, bodyH, 9);
-  ctx.fillStyle = 'rgba(255,255,255,.55)';
+  ctx.fillStyle = 'rgba(0,0,0,.28)';
+  roundRect(r.x + 1.5, bodyY + 2, r.w, bodyH, 11);
   ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = isSel ? '#d29a2e' : (hintA ? '#e0a72e' : (hintB ? '#22a06b' : '#8b6f4e'));
-  ctx.stroke();
+  const glass = ctx.createLinearGradient(r.x, bodyY, r.x + r.w, bodyY);
+  glass.addColorStop(0, 'rgba(255,255,255,.72)');
+  glass.addColorStop(0.5, 'rgba(255,255,255,.22)');
+  glass.addColorStop(1, 'rgba(255,255,255,.60)');
+  roundRect(r.x, bodyY, r.w, bodyH, 11);
+  ctx.fillStyle = glass;
+  ctx.fill();
   const segW = r.w - 8;
   const sx = r.x + 4;
   for(let i = 0; i < tube.length; i++){
-    const cell = tube[i];
-    const sy = bodyY + bodyH - 5 - (i + 1) * r.segH;
-    drawSegment(sx, sy, segW, r.segH - 1, cell.color, cell.hidden && i < tube.length - 1);
+    const sy = bodyY + bodyH - 4 - (i + 1) * r.segH;
+    drawSegment(sx, sy, segW, r.segH - 1, colorOf(tube[i].color), tube[i].hidden && i < tube.length - 1);
   }
-  roundRect(r.x + r.w * 0.26, r.y, r.w * 0.48, neck, 3);
-  ctx.fillStyle = 'rgba(255,255,255,.4)';
+  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = 'rgba(255,244,220,.85)';
+  roundRect(r.x, bodyY, r.w, bodyH, 11);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(r.x + r.w / 2, bodyY, r.w / 2, 4.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,240,214,.55)';
   ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.4)';
+  roundRect(r.x + r.w * 0.27, r.y, r.w * 0.46, neck, 4);
+  ctx.fill();
+  const isSel = selected === ti;
+  const hintA = hintMove && hintMove.a === ti;
+  const hintB = hintMove && hintMove.b === ti;
+  if(isSel || hintA || hintB){
+    const col = isSel ? 'rgba(255,214,90,.95)' : (hintA ? 'rgba(255,190,70,.95)' : 'rgba(90,220,150,.95)');
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = col;
+    roundRect(r.x - 2.5, bodyY - 2.5, r.w + 5, bodyH + 5, 14);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+  }
+}
+
+function drawLockedTube(r, ti){
+  const lock = game.locks.get(ti);
+  const neck = 10;
+  const bodyY = r.y + neck;
+  const bodyH = r.h - neck;
+  roundRect(r.x, bodyY, r.w, bodyH, 11);
+  ctx.fillStyle = 'rgba(45,26,12,.55)';
+  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(20,12,6,.7)';
+  ctx.stroke();
+  const badgeR = Math.max(11, Math.min(r.w * 0.34, 17));
+  const cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, badgeR, 0, Math.PI * 2);
+  ctx.fillStyle = '#e6b33c';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.8)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = '#5b3408';
+  ctx.font = 'bold ' + Math.round(badgeR * 1.05) + 'px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String(lock.remaining), cx, cy + 1);
+}
+
+function drawTube(r, tube, ti){
+  if(game.cleared && game.cleared.has(ti)){
+    const start = game.fx[ti] || performance.now();
+    const p = Math.min(1, (performance.now() - start) / 320);
+    if(p >= 1) return;
+    ctx.save();
+    ctx.globalAlpha = 1 - p;
+    const sc = 1 - 0.22 * p;
+    ctx.translate(r.x + r.w / 2, r.y + r.h / 2);
+    ctx.scale(sc, sc);
+    ctx.translate(-(r.x + r.w / 2), -(r.y + r.h / 2));
+    drawTubeBody(r, tube, ti);
+    ctx.restore();
+    return;
+  }
+  if(game.locks && game.locks.has(ti)){
+    drawLockedTube(r, ti);
+    return;
+  }
+  if(game.revealFx && game.revealFx[ti]){
+    const p = Math.min(1, (performance.now() - game.revealFx[ti]) / 280);
+    if(p < 1){
+      ctx.save();
+      ctx.globalAlpha = p;
+      const sc = 0.4 + 0.6 * p;
+      ctx.translate(r.x + r.w / 2, r.y + r.h / 2);
+      ctx.scale(sc, sc);
+      ctx.translate(-(r.x + r.w / 2), -(r.y + r.h / 2));
+      drawTubeBody(r, tube, ti);
+      ctx.restore();
+      return;
+    }
+  }
+  drawTubeBody(r, tube, ti);
 }
 
 function drawAnimBlob(now){
@@ -515,16 +728,20 @@ function drawAnimBlob(now){
   const p = Math.min(1, (now - anim.start) / anim.dur);
   const e = 1 - Math.pow(1 - p, 3);
   const x = anim.from.x + (anim.to.x - anim.from.x) * e;
-  const y = anim.from.y + (anim.to.y - anim.from.y) * e - Math.sin(p * Math.PI) * 22;
+  const y = anim.from.y + (anim.to.y - anim.from.y) * e - Math.sin(p * Math.PI) * 24;
   const r0 = tubeRects[0];
   const w = (r0 ? r0.w : 46) * 0.6;
   const h = anim.len * (r0 ? r0.segH : 12);
   ctx.save();
   ctx.globalAlpha = 1 - p * 0.25;
   roundRect(x - w / 2, y - h / 2, w, h, 7);
-  ctx.fillStyle = PALETTE[anim.color % PALETTE.length];
+  const col = colorOf(anim.color);
+  const g = ctx.createLinearGradient(x - w / 2, y - h / 2, x - w / 2, y + h / 2);
+  g.addColorStop(0, shade(col, 0.3));
+  g.addColorStop(1, shade(col, -0.2));
+  ctx.fillStyle = g;
   ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,.75)';
+  ctx.strokeStyle = 'rgba(255,255,255,.8)';
   ctx.lineWidth = 1.5;
   ctx.stroke();
   ctx.restore();
@@ -532,8 +749,9 @@ function drawAnimBlob(now){
 
 function draw(now){
   if(!game) return;
-  const w = boardCanvas.width / (window.devicePixelRatio || 1);
-  const h = boardCanvas.height / (window.devicePixelRatio || 1);
+  const dpr = window.devicePixelRatio || 1;
+  const w = boardCanvas.width / dpr;
+  const h = boardCanvas.height / dpr;
   ctx.clearRect(0, 0, w, h);
   for(let i = 0; i < game.tubes.length; i++){
     drawTube(tubeRects[i], game.tubes[i], i);
@@ -560,6 +778,8 @@ function onTubeTap(ti){
   if(anim) return;
   hintMove = null;
   if(selected === null){
+    if(game.cleared.has(ti)){ setStatus('已完成的水管已消除'); return; }
+    if(game.locks.has(ti)){ setStatus('还需消除 ' + game.locks.get(ti).remaining + ' 个杯子解锁'); return; }
     if(!game.tubes[ti].length){ setStatus('这是空试管，先选有水的'); return; }
     selected = ti;
     playTap();
@@ -568,6 +788,8 @@ function onTubeTap(ti){
   } else {
     const a = selected, b = ti;
     selected = null;
+    if(game.cleared.has(b)){ setStatus('已完成的水管已消除'); draw(); return; }
+    if(game.locks.has(b)){ setStatus('还需消除 ' + game.locks.get(b).remaining + ' 个杯子解锁'); draw(); return; }
     const r = canPourCells(game.tubes, a, b);
     if(!r){
       setStatus('不能倒到这里：需同色或空管，且空间足够');
@@ -581,38 +803,43 @@ function onTubeTap(ti){
 }
 
 function doPour(a, b, r){
-  game.history.push(deepCloneTubes(game.tubes));
+  game.history.push({tubes: deepCloneTubes(game.tubes), cleared: new Set(game.cleared), locks: cloneLocks(game.locks)});
   applyCellMove(game.tubes, a, b);
   game.steps++;
   const ra = tubeRects[a], rb = tubeRects[b];
   anim = {
     from: {x: ra.x + ra.w / 2, y: ra.y + 10},
     to:   {x: rb.x + rb.w / 2, y: rb.y + 10},
-    color: r.color, len: r.len,
+    color: r.color, len: r.amount,
     start: performance.now(), dur: 250
   };
   playPour();
   updateHUD();
   draw();
-  setTimeout(afterMove, 270);
+  afterMove();
 }
 
 function afterMove(){
   if(!game) return;
-  if(isSolvedCells(game.tubes)){ showWin(); return; }
-  if(!hasAnyMove(game.tubes)){
+  const added = markCleared();
+  if(isWin()){
+    playClear();
+    setTimeout(() => showWin(), added ? 380 : 0);
+    return;
+  }
+  if(!hasAnyMove(game.tubes, lockedSet())){
     setStatus('没有可倒的步了，用「撤回」或「重开」');
   }
 }
 
 function findHint(){
   const ints = game.tubes.map(t => t.map(c => c.color));
-  const r = solve(ints, 600000, 80);
+  const r = solve(ints, 600000, 80, lockedSet());
   if(r.res && r.res.length) return r.res[0];
   for(let a = 0; a < game.tubes.length; a++){
-    if(!game.tubes[a].length) continue;
+    if(!game.tubes[a].length || game.cleared.has(a) || game.locks.has(a)) continue;
     for(let b = 0; b < game.tubes.length; b++){
-      if(a === b) continue;
+      if(a === b || game.cleared.has(b) || game.locks.has(b)) continue;
       if(canPourCells(game.tubes, a, b)) return {a, b};
     }
   }
@@ -631,16 +858,19 @@ function useProp(kind){
     layout();
   } else if(kind === 'hint'){
     if(game.props.hint <= 0) return;
-    if(isSolvedCells(game.tubes)) return;
+    if(isWin()) return;
     game.props.hint--;
     const mv = findHint();
-    if(mv){ hintMove = {a: mv.a, b: mv.b}; setStatus('按高亮操作：黄色是倒出，绿色是倒入'); }
+    if(mv){ hintMove = {a: mv.a, b: mv.b}; setStatus('按高亮操作：金色是倒出，绿色是倒入'); }
     else setStatus('先把同色合成一步即可');
     updateHUD();
     draw();
   } else if(kind === 'undo'){
     if(game.props.undo <= 0 || !game.history.length) return;
-    game.tubes = game.history.pop();
+    const snap = game.history.pop();
+    game.tubes = snap.tubes;
+    game.cleared = snap.cleared || new Set();
+    game.locks = snap.locks || new Map();
     game.steps--;
     selected = null; hintMove = null;
     updateHUD();
@@ -656,6 +886,10 @@ function resetLevel(){
   game.steps = 0;
   game.history = [];
   game.props = {tube:1, hint:1, undo:1};
+  game.cleared = new Set();
+  game.fx = {};
+  game.revealFx = {};
+  game.locks = cloneLocks(game.initialLocks);
   selected = null; hintMove = null; anim = null;
   updateHUD();
   draw();
@@ -698,6 +932,7 @@ function tone(freq, dur, type, vol, when){
 function playTap(){ tone(540, .08, 'triangle', .06); }
 function playPour(){ tone(360, .12, 'sine', .07); tone(540, .1, 'sine', .05, .06); }
 function playError(){ tone(170, .16, 'sawtooth', .045); }
+function playClear(){ tone(660, .12, 'triangle', .07); tone(880, .14, 'triangle', .06, .08); }
 function playWin(){ [523,659,784,1047].forEach((f,i) => tone(f, .18, 'triangle', .07, i * .1)); }
 
 /* ================= 自检 ================= */
@@ -718,6 +953,8 @@ function runSelfCheck(){
   const summary = '自检：' + lines.join('；');
   console.log(summary);
   setStatus(summary);
+  const resEl = $('selfCheckResult');
+  if(resEl) resEl.textContent = summary;
 }
 window.__selfCheck = runSelfCheck;
 
