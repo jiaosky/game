@@ -217,6 +217,13 @@ button{font-family:inherit;color:inherit;}
   opacity:0;transform:scale(.7);transition:opacity .18s ease,transform .18s ease;
 }
 .combo.show{opacity:1;transform:scale(1);}
+.combo.hot{background:linear-gradient(180deg,#f59b38,#d45214);box-shadow:0 0 0 2px rgba(255,214,117,.20),0 3px 10px rgba(180,58,10,.35);}
+.combo.blazing{
+  background:linear-gradient(180deg,#ff6b35,#b81f1f);
+  box-shadow:0 0 0 2px rgba(255,224,140,.34),0 4px 14px rgba(170,30,20,.45);
+  animation:comboBlaze .7s ease-in-out infinite alternate;
+}
+@keyframes comboBlaze{from{transform:scale(1)}to{transform:scale(1.06)}}
 .board-wrap{
   flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
   border-radius:22px;overflow:hidden;position:relative;
@@ -231,6 +238,34 @@ button{font-family:inherit;color:inherit;}
     0 12px 30px rgba(90,55,20,.28);
 }
 #board{display:block;}
+.roast-pop{
+  position:absolute;left:12px;right:12px;bottom:12px;z-index:3;pointer-events:none;
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;
+  color:#fff7e7;background:linear-gradient(135deg,rgba(49,29,15,.97),rgba(112,56,21,.95));
+  border:1px solid rgba(255,207,112,.48);
+  box-shadow:0 12px 28px rgba(24,12,4,.42),inset 0 1px 0 rgba(255,255,255,.13);
+  opacity:0;transform:translateY(16px) scale(.96);visibility:hidden;
+  transition:opacity .16s ease,transform .2s cubic-bezier(.2,.9,.3,1.15),visibility .16s;
+}
+.roast-pop.show{opacity:1;transform:none;visibility:visible;animation:roastKick .28s cubic-bezier(.2,.9,.3,1.15);}
+.roast-pop[data-mode="hot"]{background:linear-gradient(135deg,rgba(80,34,14,.97),rgba(166,65,16,.95));border-color:rgba(255,187,83,.62);}
+.roast-pop[data-mode="blazing"]{background:linear-gradient(135deg,rgba(103,21,15,.98),rgba(178,42,24,.96));border-color:rgba(255,194,94,.72);}
+.roast-pop[data-mode="break"]{background:linear-gradient(135deg,rgba(61,30,29,.98),rgba(118,43,39,.96));border-color:rgba(235,139,116,.58);}
+.roast-pop[data-mode="danger"]{background:linear-gradient(135deg,rgba(83,24,18,.98),rgba(154,40,27,.96));border-color:rgba(255,146,100,.65);}
+.roast-pop[data-mode="loss"]{background:linear-gradient(135deg,rgba(74,18,17,.99),rgba(145,32,27,.97));border-color:rgba(255,124,101,.72);}
+.roast-avatar{
+  width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+  background:rgba(255,241,205,.12);border:1px solid rgba(255,224,158,.24);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+}
+.roast-pop.show .roast-avatar{animation:roastFace .42s ease-out;}
+.roast-copy{min-width:0;flex:1;text-align:left;}
+.roast-kicker{display:block;margin-bottom:2px;font-size:9px;font-weight:900;letter-spacing:1.5px;color:#ffc968;}
+.roast-text{display:block;font-size:12.5px;line-height:1.42;font-weight:900;text-wrap:balance;}
+@keyframes roastKick{0%{transform:translateY(16px) scale(.94) rotate(-1deg)}65%{transform:translateY(-2px) scale(1.015) rotate(.3deg)}100%{transform:none}}
+@keyframes roastFace{0%{transform:scale(.65) rotate(-12deg)}65%{transform:scale(1.12) rotate(5deg)}100%{transform:none}}
+.board-wrap.final-hit{animation:boardHit .48s ease-out;}
+@keyframes boardHit{0%,100%{transform:translateX(0)}18%{transform:translateX(-7px)}36%{transform:translateX(6px)}54%{transform:translateX(-4px)}72%{transform:translateX(3px)}}
 .status{min-height:16px;text-align:center;font-size:11.5px;font-weight:800;color:var(--red);line-height:1.3;transition:color .18s ease;}
 .status.ok{color:var(--green);}
 .status.info{color:#236a8c;}
@@ -249,6 +284,35 @@ button{font-family:inherit;color:inherit;}
 .prop .p-name{font-size:10.5px;font-weight:900;letter-spacing:.2px;}
 .prop .p-cnt{font-size:9.5px;font-weight:900;color:var(--gold-d);}
 .prop.danger{background:linear-gradient(180deg,#fdf5f1,#f6e2d9);border-color:#e3bbaa;color:var(--red);}
+.voice-boost{
+  width:100%;margin-top:7px;border:1.5px dashed #d9b875;border-radius:13px;padding:6px 9px;
+  display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left;
+  background:linear-gradient(180deg,rgba(255,252,242,.94),rgba(245,230,197,.92));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 6px rgba(140,100,55,.08);
+  transition:border-color .18s ease,background .18s ease,transform .09s ease,opacity .18s ease;
+}
+.voice-boost:active{transform:scale(.99);}
+.voice-boost:disabled{opacity:.62;cursor:not-allowed;filter:grayscale(.15);}
+.voice-boost .vb-ico{
+  width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;
+  font-size:17px;background:#f8e9c6;border:1px solid #e4c98f;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.voice-boost .vb-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px;}
+.voice-boost .vb-title{font-size:11px;font-weight:900;color:#76501d;letter-spacing:.2px;}
+.voice-boost .vb-hint{font-size:9.5px;line-height:1.25;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.voice-boost .vb-state{
+  flex:0 0 auto;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;
+  color:#8a5c0c;background:#f5dfae;border:1px solid #e3c47e;
+}
+.voice-boost.listening{border-color:#cf8c2b;background:linear-gradient(180deg,#fff8df,#f8e4af);}
+.voice-boost.listening .vb-ico{background:#ffe6ad;animation:voicePulse .9s ease-in-out infinite;}
+.voice-boost.listening .vb-state{color:#fff;background:#c47c20;border-color:#b26b11;}
+.voice-boost.success{border-color:#83c69f;background:linear-gradient(180deg,#f3fff7,#dff3e6);}
+.voice-boost.success .vb-state{color:#fff;background:#2e9e6b;border-color:#26865a;}
+.voice-boost.error{border-color:#e2b0a4;background:linear-gradient(180deg,#fff8f4,#f5e3dc);}
+.voice-boost.error .vb-state{color:#fff;background:#b8523d;border-color:#a34431;}
+@keyframes voicePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(210,140,35,.28)}50%{transform:scale(1.07);box-shadow:0 0 0 5px rgba(210,140,35,0)}}
 
 /* ---------- modal / toast ---------- */
 .modal{
@@ -286,6 +350,20 @@ button{font-family:inherit;color:inherit;}
   font-size:10.5px;font-weight:900;color:#8a5c0c;background:#fbe9bd;border:1px solid #e6c37c;
 }
 .result-tag.hide{display:none;}
+.result-roast{
+  margin:0 0 10px;padding:11px 12px 12px;border-radius:13px;text-align:left;
+  color:#ffe9c2;background:linear-gradient(135deg,#442817,#6e3b1e);
+  border:1px solid rgba(218,166,79,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+  font-size:12px;line-height:1.55;font-weight:800;
+}
+.result-roast .rr-label{display:block;margin-bottom:4px;font-size:9px;letter-spacing:1.6px;color:#f6c35d;font-weight:900;}
+#resultModal.loss .sheet{border-color:#d79682;background:linear-gradient(180deg,#fff8f3,#f4ddd2);}
+#resultModal.loss .result-emoji{filter:drop-shadow(0 5px 8px rgba(150,42,25,.20));}
+#resultModal.loss .stars{color:#b94d39;}
+#resultModal.loss .result-roast{color:#ffe1d7;background:linear-gradient(135deg,#551c18,#842c23);border-color:rgba(233,133,107,.62);}
+#resultModal.loss .result-roast .rr-label{color:#ffac91;}
+#resultModal.loss .result-tag{color:#8d2d20;background:#f8d5c8;border-color:#dfaa96;}
+#resultModal.loss .result-lines{border-color:#e7c7ba;background:rgba(255,255,255,.62);}
 .sheet-actions{display:flex;gap:9px;margin-top:8px;}
 .sheet-actions .btn{flex:1;padding:12px 8px;font-size:14.5px;}
 .sheet .btn.primary{width:100%;margin-top:12px;}
@@ -309,6 +387,11 @@ button{font-family:inherit;color:inherit;}
   max-width:86vw;text-align:center;
 }
 .toast.show{opacity:1;transform:translate(-50%,0);}
+.toast.mock{
+  background:linear-gradient(135deg,rgba(71,31,20,.96),rgba(126,43,25,.95));
+  border:1px solid rgba(255,153,111,.55);color:#fff0e3;font-size:12.5px;
+  box-shadow:0 8px 24px rgba(65,20,10,.38);
+}
 
 @media (max-width:390px){
   #app{padding-left:9px;padding-right:9px;}
@@ -321,6 +404,9 @@ button{font-family:inherit;color:inherit;}
   .prop .p-ico{font-size:18px;}
   .prop .p-name{font-size:10px;}
   .dot{font-size:10.5px;}
+  .roast-pop{left:9px;right:9px;bottom:9px;padding:9px 10px;}
+  .roast-avatar{width:34px;height:34px;flex-basis:34px;font-size:20px;}
+  .roast-text{font-size:11.8px;}
 }
 @media (max-height:680px){
   .brand h1{font-size:30px;}
@@ -348,7 +434,7 @@ button{font-family:inherit;color:inherit;}
         <button id="hapticToggle">📳 震动开</button>
         <button id="helpBtn">📖 玩法</button>
       </div>
-      <p class="foot">每关道具各 1 次 · 全部关卡必可解 · 清空全部色块即通关</p>
+      <p class="foot">每关道具各 1 次 · 喊“我是菜狗”可加次数 · 清空全部色块即通关</p>
     </div>
   </section>
 
@@ -379,7 +465,16 @@ button{font-family:inherit;color:inherit;}
       <div class="meta-item"><span>分数</span><b id="scoreText">0</b></div>
       <div class="combo" id="comboBadge">连击 x2</div>
     </div>
-    <div class="board-wrap" id="boardWrap"><canvas id="board"></canvas></div>
+    <div class="board-wrap" id="boardWrap">
+      <canvas id="board"></canvas>
+      <div class="roast-pop" id="roastPop" data-mode="combo" role="status" aria-live="assertive" aria-atomic="true">
+        <span class="roast-avatar" id="roastAvatar" aria-hidden="true">😏</span>
+        <span class="roast-copy">
+          <span class="roast-kicker" id="roastKicker">毒舌裁判</span>
+          <strong class="roast-text" id="roastText"></strong>
+        </span>
+      </div>
+    </div>
     <div class="status" id="statusMsg" role="status" aria-live="polite"></div>
     <div class="props" id="propsBar">
       <button class="prop" data-prop="tube"><span class="p-ico">🧪</span><span class="p-name">空试管</span><span class="p-cnt" id="cnt-tube">×1</span></button>
@@ -387,6 +482,14 @@ button{font-family:inherit;color:inherit;}
       <button class="prop" data-prop="undo"><span class="p-ico">↩️</span><span class="p-name">撤回</span><span class="p-cnt" id="cnt-undo">×1</span></button>
       <button class="prop danger" data-prop="reset"><span class="p-ico">🔄</span><span class="p-name">重开</span></button>
     </div>
+    <button class="voice-boost" id="voiceBoost" type="button" aria-describedby="voiceHint">
+      <span class="vb-ico" aria-hidden="true">🎙️</span>
+      <span class="vb-copy">
+        <span class="vb-title">菜狗补给站</span>
+        <span class="vb-hint" id="voiceHint">点一下，喊“我是菜狗” · 三种道具各 +1</span>
+      </span>
+      <span class="vb-state" id="voiceState">开始</span>
+    </button>
   </section>
 </div>
 
@@ -396,6 +499,7 @@ button{font-family:inherit;color:inherit;}
     <h2 id="resultTitle">通关！</h2>
     <div class="stars" id="resultStars"></div>
     <div class="result-lines" id="resultLines"></div>
+    <div class="result-roast" id="resultRoast"><span class="rr-label">毒舌裁判 · 赛后总结</span><span id="resultRoastText"></span></div>
     <div class="result-tag hide" id="resultTag">完美通关</div>
     <div class="sheet-actions">
       <button class="btn ghost" id="resultSecondary">关卡地图</button>
@@ -414,6 +518,8 @@ button{font-family:inherit;color:inherit;}
       <li><b>订单</b>：顶部订单记录需要完成的颜色杯数；清空全部色块才算通关。</li>
       <li><b>隐藏色</b>：灰色「?」色块露出后揭晓；<b>隐藏杯</b>上的数字表示还需消除几杯才能解锁。</li>
       <li><b>步数</b>：每关有步数上限，用完前清空全部色块。道具每关各 1 次；重开会重置棋盘，但不返还已用道具。</li>
+      <li><b>菜狗补给</b>：点麦克风后喊“我是菜狗”，空试管、提示、撤回各 +1。需要允许麦克风权限，且识别依赖浏览器与网络。</li>
+      <li><b>毒舌裁判</b>：连击越高嘴越硬，翻车时更不留情。它只负责拱火，不影响规则和判定。</li>
     </ul>
     <button class="btn primary" id="helpClose">知道了</button>
   </div>
@@ -457,6 +563,100 @@ const TIERS = [
    cMin:10, cMax:12, hMin:5, hMax:12, lMin:1, lMax:3, f0:1.42, f1:1.2,
    desc:'满配颜色 · 极限步数'}
 ];
+
+/* 毒的只是嘴，不是难度。连胜时拱火，翻车时补刀。 */
+const ROASTS = {
+  combo: {
+    warm: [
+      '连 x{combo} 就开始喘上了？继续，我还没认真看。',
+      '两杯而已，手别抖。下一杯断了，我可要记账。',
+      '这手感刚有点样子，别急着飘。'
+    ],
+    hot: [
+      '连 x{combo} 了。有点东西，但还没到让我闭嘴。',
+      '手稳得像开了挂。下一杯要是断了，多尴尬。',
+      '你在热身，还是已经到极限了？继续。'
+    ],
+    blazing: [
+      '连 x{combo}？我开始怀疑是关卡太菜，不是你很行。',
+      '还连着呢。今天不把记录打穿，别收手。',
+      '你越稳，我越想看你失误。下一杯，证明我错了。'
+    ]
+  },
+  broken: [
+    '啪，连击没了。刚才不是挺能倒的吗？',
+    '连 x{combo} 就得意？这一手直接露馅。',
+    '断了。果然，稳不过三杯。继续，别装没事。'
+  ],
+  stuck: [
+    '路走死了。现在知道前面那几步有多随意了吧？',
+    '没路了。撤回、加杯还是重开，选一个，别杵着。'
+  ],
+  pressure: {
+    5: [
+      '只剩 5 步。现在才开始认真？我等着看你怎么收场。',
+      '5 步。再磨蹭，这局就只剩嘴硬了。'
+    ],
+    3: [
+      '3 步。手再抖一下，这局就可以进笑话集了。',
+      '还剩 3 步。要么现在醒，要么等结算时脸红。'
+    ],
+    1: [
+      '最后 1 步。要么封神，要么让我笑出声。选吧。',
+      '1 步。别想太久，反正这手已经决定你是哪种人了。'
+    ]
+  },
+  wrong: {
+    locked: [
+      '锁着呢。跟一把锁较劲，算你有想象力。',
+      '先消杯再解锁。点它不会自己开。'
+    ],
+    empty: [
+      '空杯倒空杯？行为艺术请去隔壁。',
+      '这杯一滴都没有，你打算倒空气？'
+    ],
+    pour: [
+      '倒不进去。眼和手，总得有一个在线吧？',
+      '这一步不成立。别硬试，系统不陪你演。'
+    ]
+  },
+  win: {
+    clean: [
+      '三星加最高连击 x{max}。行，这局给你记一笔，下一关别露馅。',
+      '干净利落，连 x{max} 收尾。先别翘尾巴，下一关才是验货。'
+    ],
+    hot: [
+      '连 x{max} 才过关，确实有点东西。下一关翻车的话，我会笑得更大声。',
+      '这波手速挺唬人。下一关要是掉链子，我就当你刚才是运气。'
+    ],
+    clutch: [
+      '压着最后几步过关，心跳挺会演。下一关还敢这么玩吗？',
+      '差点把自己玩没，居然还真过了。行，再来一关给我看看。'
+    ],
+    normal: [
+      '过了。先别摆胜利姿势，下一关才是验货。',
+      '订单收下了，嘴还没收。下一关继续，别让我闲着。'
+    ]
+  },
+  loss: {
+    close: [
+      '就差 {left} 格，手指都到门口了偏偏腿软。这口气你咽得下？',
+      '还剩 {left} 格。倒在终点线前，这种输法最丢人，再来。'
+    ],
+    hot: [
+      '连 x{max} 都能输，节目效果拉满。下一局别只演前半场。',
+      '前面连 x{max}，最后却交白卷。行，我记住你有多会翻车了。'
+    ],
+    cold: [
+      '折腾 {steps} 步，还剩 {left} 格。你不是在挑战，你是在给关卡热身。',
+      '用了 {steps} 步，还剩 {left} 格。这局不是失败，是给对手做陪练。'
+    ],
+    normal: [
+      '步数烧完了，订单还在原地。再来一局，别让我把这页当笑话存档。',
+      '没通关，连击最高 x{max}。嘴硬救不了棋盘，下一把拿点真东西出来。'
+    ]
+  }
+};
 
 /* ===================== 存档 ===================== */
 function defaultSave(){
@@ -821,6 +1021,14 @@ let floaters = [];
 let particles = [];
 let helpAuto = false;
 let resultAction = null;
+const VOICE_PHRASE = '我是菜狗';
+const VOICE_REWARD = {tube:1, hint:1, undo:1};
+const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceRecognition = null;
+let voiceListening = false;
+let voiceRewarded = false;
+let voiceStopRequested = false;
+let voiceResetTimer = 0;
 
 /* ===================== 当前对局恢复 ===================== */
 function packLocks(map){
@@ -934,6 +1142,7 @@ function restoreGameProgress(data){
     usedHint:!!data.usedHint,
     usedUndo:!!data.usedUndo,
     fxCleared:{}, fxReveal:{}, fxPulse:{}, fxShake:{},
+    pressureSeen:new Set(),
     finished:false
   };
   mapTier = tier.key;
@@ -943,7 +1152,8 @@ function restoreGameProgress(data){
   floaters = []; particles = [];
   $('lpTier').textContent = tier.name;
   $('lpLevel').textContent = game.level + '/50';
-  $('comboBadge').classList.remove('show');
+  $('comboBadge').classList.remove('show', 'hot', 'blazing');
+  hideRoast();
   showScreen('game');
   status('');
   updateHUD();
@@ -955,6 +1165,7 @@ function restoreGameProgress(data){
 function showScreen(name){
   currentScreen = name;
   Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === name));
+  if(name !== 'game') stopVoiceRecognition();
   if(name === 'home'){
     renderHome();
     layoutHero();
@@ -962,12 +1173,14 @@ function showScreen(name){
     renderMap();
   } else if(name === 'game'){
     layoutBoard();
+    setVoiceBoostUI('idle');
   }
 }
 
-function toast(msg){
+function toast(msg, tone){
   const t = $('toast');
   t.textContent = msg;
+  t.className = 'toast' + (tone ? ' ' + tone : '');
   t.classList.add('show');
   clearTimeout(toast._timer);
   toast._timer = setTimeout(() => t.classList.remove('show'), 2000);
@@ -977,6 +1190,251 @@ function status(msg, tone){
   el.textContent = msg || '';
   el.classList.remove('ok', 'info', 'warn');
   if(msg && tone) el.classList.add(tone);
+}
+
+/* ===================== 语音补给 ===================== */
+function setVoiceBoostUI(state, detail){
+  const btn = $('voiceBoost');
+  if(!btn) return;
+  const hint = $('voiceHint');
+  const badge = $('voiceState');
+  clearTimeout(voiceResetTimer);
+  btn.classList.remove('listening', 'success', 'error');
+  btn.disabled = false;
+
+  if(!SpeechRecognitionCtor){
+    btn.classList.add('error');
+    btn.disabled = true;
+    hint.textContent = '此浏览器不支持语音识别，请使用 Chrome / Edge';
+    badge.textContent = '不支持';
+    return;
+  }
+  if(game && game.finished && state !== 'success') state = 'disabled';
+
+  if(state === 'listening'){
+    btn.classList.add('listening');
+    hint.textContent = detail || '正在听，请说“我是菜狗”';
+    badge.textContent = '聆听中';
+  } else if(state === 'success'){
+    btn.classList.add('success');
+    hint.textContent = detail || '三种道具各 +1，补给已存入本局';
+    badge.textContent = '+1';
+  } else if(state === 'error'){
+    btn.classList.add('error');
+    hint.textContent = detail || '没听清，再点一下重试';
+    badge.textContent = '重试';
+  } else if(state === 'disabled'){
+    btn.disabled = true;
+    hint.textContent = '本关已结束，下一关再来补给';
+    badge.textContent = '结束';
+  } else {
+    hint.textContent = '点一下，喊“我是菜狗” · 三种道具各 +1';
+    badge.textContent = '开始';
+  }
+}
+
+function resetVoiceBoostSoon(delay){
+  clearTimeout(voiceResetTimer);
+  voiceResetTimer = setTimeout(() => {
+    voiceResetTimer = 0;
+    if(!voiceListening) setVoiceBoostUI('idle');
+  }, delay);
+}
+
+function isVoicePhrase(text){
+  const compact = String(text || '').replace(/[\s，。！？、,.!?;；:："'“”‘’（）()【】\[\]…—_-]/g, '');
+  return compact.includes(VOICE_PHRASE);
+}
+
+function grantVoiceBoost(){
+  if(!game || game.finished) return false;
+  Object.keys(VOICE_REWARD).forEach(k => { game.props[k] += VOICE_REWARD[k]; });
+  updateHUD();
+  saveGameProgress();
+  sfx('win');
+  buzz([12, 28, 12]);
+  status('“我是菜狗”认证成功：空试管、提示、撤回各 +1', 'ok');
+  toast('菜狗补给到账：三种道具各 +1');
+  return true;
+}
+
+function stopVoiceRecognition(){
+  if(!voiceListening || !voiceRecognition) return;
+  voiceStopRequested = true;
+  try{ voiceRecognition.abort(); }catch(e){}
+}
+
+function beginVoiceBoost(){
+  ensureAudio();
+  if(!game || game.finished){ toast('当前没有可补给的关卡'); return; }
+  if(!SpeechRecognitionCtor){
+    setVoiceBoostUI('idle');
+    toast('当前浏览器不支持语音识别，请使用 Chrome / Edge');
+    return;
+  }
+  if(voiceListening){
+    stopVoiceRecognition();
+    setVoiceBoostUI('idle', '已停止聆听，再点一次重试');
+    return;
+  }
+
+  clearTimeout(voiceResetTimer);
+  voiceRewarded = false;
+  voiceStopRequested = false;
+  let errorText = '';
+  let rec;
+  try{
+    rec = new SpeechRecognitionCtor();
+  }catch(e){
+    setVoiceBoostUI('error', '语音识别启动失败，请刷新页面重试');
+    return;
+  }
+
+  voiceRecognition = rec;
+  voiceListening = true;
+  rec.lang = 'zh-CN';
+  rec.interimResults = true;
+  rec.continuous = false;
+  rec.maxAlternatives = 5;
+  setVoiceBoostUI('listening');
+
+  rec.onstart = () => {
+    if(voiceRecognition !== rec || voiceRewarded) return;
+    setVoiceBoostUI('listening');
+  };
+  rec.onresult = event => {
+    if(voiceRecognition !== rec || voiceRewarded) return;
+    let heard = '';
+    for(let i = event.resultIndex; i < event.results.length && !voiceRewarded; i++){
+      const result = event.results[i];
+      for(let j = 0; j < result.length; j++){
+        const alt = result[j];
+        if(!alt || !alt.transcript) continue;
+        if(isVoicePhrase(alt.transcript)){
+          voiceRewarded = true;
+          grantVoiceBoost();
+          setVoiceBoostUI('success');
+          try{ rec.stop(); }catch(e){}
+          break;
+        }
+      }
+      if(!voiceRewarded && result[0]) heard += result[0].transcript;
+    }
+    if(!voiceRewarded && heard){
+      const short = heard.trim().slice(-18);
+      setVoiceBoostUI('listening', short ? '听到：“' + short + '”' : '');
+    }
+  };
+  rec.onerror = event => {
+    if(voiceRecognition !== rec || voiceRewarded) return;
+    if(event.error === 'aborted' && voiceStopRequested) return;
+    const errors = {
+      'not-allowed':'麦克风权限被拒绝，请在浏览器设置中允许访问',
+      'service-not-allowed':'浏览器禁用了语音识别服务',
+      'audio-capture':'没有找到可用的麦克风',
+      'no-speech':'没听到声音，再点一下重试',
+      'network':'语音识别服务连接失败，请检查网络',
+      'language-not-supported':'当前浏览器不支持中文语音识别'
+    };
+    errorText = errors[event.error] || '语音识别失败，请再试一次';
+    setVoiceBoostUI('error', errorText);
+    status(errorText, 'warn');
+    toast(errorText);
+  };
+  rec.onend = () => {
+    if(voiceRecognition !== rec) return;
+    voiceListening = false;
+    voiceRecognition = null;
+    if(voiceRewarded){
+      resetVoiceBoostSoon(2600);
+    } else if(voiceStopRequested){
+      setVoiceBoostUI('idle', '已停止聆听，再点一次重试');
+    } else if(errorText){
+      resetVoiceBoostSoon(3200);
+    } else {
+      setVoiceBoostUI('error', '没听清，再点一下重试');
+      status('没听清口令，再点麦克风说一次', 'warn');
+      resetVoiceBoostSoon(3000);
+    }
+  };
+
+  try{
+    rec.start();
+  }catch(e){
+    voiceListening = false;
+    voiceRecognition = null;
+    setVoiceBoostUI('error', '语音识别启动失败，请刷新页面重试');
+  }
+}
+
+/* ===================== 毒舌反馈 ===================== */
+let lastRoast = '';
+function fillRoast(line, vars){
+  return String(line || '').replace(/\{([a-z]+)\}/gi, (all, key) => {
+    return Object.prototype.hasOwnProperty.call(vars || {}, key) ? String(vars[key]) : all;
+  });
+}
+function pickRoast(lines, vars){
+  const list = Array.isArray(lines) ? lines : [];
+  if(!list.length) return '';
+  const fresh = list.filter(line => line !== lastRoast);
+  const pool = fresh.length ? fresh : list;
+  lastRoast = pool[Math.floor(Math.random() * pool.length)];
+  return fillRoast(lastRoast, vars || {});
+}
+function hideRoast(){
+  clearTimeout(showRoast._timer);
+  const el = $('roastPop');
+  if(el) el.classList.remove('show');
+}
+function showRoast(text, mode, kicker, hold){
+  if(!text) return;
+  const el = $('roastPop');
+  const faces = {combo:'😏', hot:'🔥', blazing:'😈', break:'🫠', danger:'😬', win:'🏆', loss:'💀'};
+  $('roastAvatar').textContent = faces[mode] || '😏';
+  $('roastKicker').textContent = kicker || '毒舌裁判';
+  $('roastText').textContent = text;
+  el.dataset.mode = mode || 'combo';
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(showRoast._timer);
+  showRoast._timer = setTimeout(() => el.classList.remove('show'), hold || 2200);
+}
+function tauntCombo(combo){
+  const band = combo >= 8 ? 'blazing' : (combo >= 5 ? 'hot' : 'warm');
+  const text = pickRoast(ROASTS.combo[band], {combo});
+  status('连击 x' + combo + ' · ' + (combo >= 8 ? '别停，打穿它' : (combo >= 5 ? '手别抖，继续' : '继续堆')), combo >= 5 ? 'warn' : 'ok');
+  showRoast(text, band === 'warm' ? 'combo' : band, '连击裁判 · x' + combo, combo >= 8 ? 2700 : 2300);
+  sfx(combo >= 5 ? 'comboHigh' : 'combo');
+  buzz(combo >= 8 ? [8, 18, 8, 30, 12] : [8, 18, 8]);
+}
+function tauntBroken(oldCombo){
+  const text = pickRoast(ROASTS.broken, {combo:oldCombo});
+  status('连击归零 · 刚那下手滑我记下了', 'warn');
+  showRoast(text, 'break', '连击已断 · 最高 x' + game.maxCombo, 2300);
+  sfx('mock');
+  buzz([35, 42, 70]);
+}
+function maybeStepPressure(){
+  if(!game || game.finished) return;
+  const left = game.limit - game.steps;
+  if(!Object.prototype.hasOwnProperty.call(ROASTS.pressure, left)) return;
+  if(!(game.pressureSeen instanceof Set)) game.pressureSeen = new Set();
+  if(game.pressureSeen.has(left)) return;
+  game.pressureSeen.add(left);
+  const text = pickRoast(ROASTS.pressure[left], {left});
+  status('只剩 ' + left + ' 步 · 每一手都算数', 'warn');
+  showRoast(text, 'danger', '步数警报 · 还剩 ' + left + ' 步', 2500);
+  sfx('warning');
+  buzz([18, 38, 18]);
+}
+function tauntWrong(kind, reason){
+  const text = pickRoast(ROASTS.wrong[kind] || ROASTS.wrong.pour);
+  toast(text, 'mock');
+  status(reason || text, 'warn');
+  sfx('mock');
+  buzz([8, 28, 8]);
 }
 
 function updateSoundLabels(){
@@ -1112,6 +1570,7 @@ function startLevel(tierKey, level){
     history: [],
     usedHint: false, usedUndo: false,
     fxCleared: {}, fxReveal: {}, fxPulse: {}, fxShake: {},
+    pressureSeen: new Set(),
     finished: false
   };
   mapTier = tierKey;
@@ -1122,7 +1581,8 @@ function startLevel(tierKey, level){
 
   $('lpTier').textContent = tier.name;
   $('lpLevel').textContent = level + '/50';
-  $('comboBadge').classList.remove('show');
+  $('comboBadge').classList.remove('show', 'hot', 'blazing');
+  hideRoast();
   $('stepsMeta').classList.remove('warn');
   showScreen('game');
   status('');
@@ -1178,8 +1638,10 @@ function updateHUD(){
   if(game.combo >= 2){
     cb.textContent = '连击 x' + game.combo;
     cb.classList.add('show');
+    cb.classList.toggle('hot', game.combo >= 5 && game.combo < 8);
+    cb.classList.toggle('blazing', game.combo >= 8);
   } else {
-    cb.classList.remove('show');
+    cb.classList.remove('show', 'hot', 'blazing');
   }
   $('cnt-tube').textContent = '×' + game.props.tube;
   $('cnt-hint').textContent = '×' + game.props.hint;
@@ -1193,6 +1655,10 @@ function updateHUD(){
     if(game.finished) dis = true;
     b.disabled = dis;
   });
+  if(game.finished){
+    stopVoiceRecognition();
+    setVoiceBoostUI('disabled');
+  }
 }
 
 /* ===================== 弹窗 ===================== */
@@ -1207,59 +1673,72 @@ function showResult(win){
   const winStars = win ? starsFor(game.steps, game.par, game.limit) : 0;
   const bonus = win ? Math.max(0, game.limit - game.steps) * 15 : 0;
   const total = win ? game.score + bonus : game.score;
+  const remaining = game.tubes.reduce((n, t, i) => game.cleared.has(i) ? n : n + t.length, 0);
+  const maxCombo = game.maxCombo || 0;
+  const perfect = win && !game.usedHint && !game.usedUndo;
+  const modal = $('resultModal');
 
-  $('resultEmoji').textContent = win ? '🎉' : '😵';
-  $('resultTitle').textContent = win ? '通关！' : '步数用完了';
+  modal.classList.toggle('loss', !win);
   $('resultStars').innerHTML = win
     ? [1,2,3].map(i => '<span class="' + (i <= winStars ? '' : 's-off') + '">★</span>').join('')
     : '<span class="s-off">★★★</span>';
 
   const lines = [];
+  let roast = '';
   if(win){
+    const band = maxCombo >= 8 ? 'hot' : (game.limit - game.steps <= 2 ? 'clutch' : (perfect && maxCombo >= 3 ? 'clean' : 'normal'));
+    roast = pickRoast(ROASTS.win[band], {max:maxCombo, stars:winStars});
+    $('resultEmoji').textContent = maxCombo >= 8 ? '😈' : (winStars === 3 ? '🏆' : '😏');
+    $('resultTitle').textContent = maxCombo >= 8 ? '过了，但别急着封神' : (winStars === 3 ? '通关。先别飘' : '过关了？下一关验货');
     lines.push(['倒水得分', game.scorePour]);
     lines.push(['消除得分', game.scoreClear]);
     lines.push(['连击得分', game.scoreCombo]);
     lines.push(['剩余步数奖励', bonus]);
     lines.push(['总分', total, true]);
   } else {
+    const band = remaining <= 4 ? 'close' : (maxCombo >= 6 ? 'hot' : (remaining >= 8 ? 'cold' : 'normal'));
+    roast = pickRoast(ROASTS.loss[band], {left:remaining, steps:game.steps, max:maxCombo});
+    $('resultEmoji').textContent = '💀';
+    $('resultTitle').textContent = remaining <= 4 ? '门都踹开了，脚滑了' : (maxCombo >= 6 ? '连击很凶，结局很怂' : '就这？步数都替你脸红');
     lines.push(['已用步数', game.steps + ' / ' + game.limit]);
-    const remaining = game.tubes.reduce((n, t, i) => game.cleared.has(i) ? n : n + t.length, 0);
     lines.push(['剩余色块', remaining + ' 格']);
+    lines.push(['最高连击', 'x' + maxCombo]);
     lines.push(['本局得分', game.score, true]);
   }
   $('resultLines').innerHTML = lines.map(l =>
     '<div class="rl ' + (l[2] ? 'total' : '') + '"><span>' + l[0] + '</span><b>' + l[1] + '</b></div>'
   ).join('');
+  $('resultRoastText').textContent = roast;
 
-  const perfect = win && !game.usedHint && !game.usedUndo;
   const tag = $('resultTag');
+  tag.classList.remove('hide');
   if(win){
-    tag.classList.remove('hide');
-    tag.textContent = perfect ? '完美通关 · 未使用提示/撤回' : (winStars === 3 ? '三星通关' : '全部消除');
+    const base = perfect ? '完美通关 · 未使用提示/撤回' : (winStars === 3 ? '三星通关' : '清空全部色块');
+    tag.textContent = base + (maxCombo >= 2 ? ' · 最高连击 x' + maxCombo : '');
   } else {
-    tag.classList.add('hide');
+    tag.textContent = '最高连击 x' + maxCombo + ' · 还剩 ' + remaining + ' 格';
   }
 
   const primary = $('resultPrimary');
   const secondary = $('resultSecondary');
   if(win){
     if(game.level < 50){
-      primary.textContent = '下一关';
+      primary.textContent = '下一关，继续刚';
       resultAction = () => { closeResult(); startLevel(game.tier.key, game.level + 1); };
     } else {
-      primary.textContent = '返回地图';
+      primary.textContent = '回去炫耀';
       resultAction = () => { closeResult(); showScreen('map'); };
     }
     secondary.textContent = '重玩';
     secondary.onclick = () => { closeResult(); startLevel(game.tier.key, game.level); };
   } else {
-    primary.textContent = '再来一次';
+    primary.textContent = '不服，再来';
     resultAction = () => { closeResult(); startLevel(game.tier.key, game.level); };
-    secondary.textContent = '关卡地图';
+    secondary.textContent = '先溜了';
     secondary.onclick = () => { closeResult(); showScreen('map'); };
   }
   primary.onclick = () => { if(resultAction) resultAction(); };
-  $('resultModal').classList.add('show');
+  modal.classList.add('show');
 }
 
 function closeResult(){ $('resultModal').classList.remove('show'); }
@@ -1287,6 +1766,8 @@ function finishWin(){
   if(game.level < 50) save.last = {tier:game.tier.key, level:game.level + 1};
   persist();
   updateHUD();
+  sfx('win');
+  buzz([12, 34, 12, 34, 22]);
   setTimeout(() => showResult(true), 480);
 }
 
@@ -1295,7 +1776,14 @@ function finishLose(){
   game.finished = true;
   clearGameProgress();
   updateHUD();
-  setTimeout(() => showResult(false), 320);
+  sfx('lose');
+  buzz([38, 55, 90]);
+  const board = $('boardWrap');
+  board.classList.remove('final-hit');
+  void board.offsetWidth;
+  board.classList.add('final-hit');
+  setTimeout(() => board.classList.remove('final-hit'), 520);
+  setTimeout(() => showResult(false), 420);
 }
 /* ===================== Canvas 渲染 ===================== */
 const boardCanvas = $('board');
@@ -1850,6 +2338,10 @@ function sfx(kind){
   if(kind === 'tap'){ tone(560, 0.07, 'triangle', 0.05); }
   else if(kind === 'pour'){ tone(300, 0.11, 'sine', 0.06); tone(480, 0.1, 'sine', 0.04, 0.05); }
   else if(kind === 'clear'){ tone(660, 0.1, 'triangle', 0.06); tone(880, 0.13, 'triangle', 0.05, 0.07); }
+  else if(kind === 'combo'){ tone(520, 0.07, 'triangle', 0.04); tone(700, 0.09, 'triangle', 0.04, 0.07); }
+  else if(kind === 'comboHigh'){ [620,780,980].forEach((f, i) => tone(f, 0.1, 'square', 0.026, i * 0.065)); }
+  else if(kind === 'mock'){ tone(310, 0.09, 'square', 0.024); tone(230, 0.14, 'square', 0.022, 0.085); }
+  else if(kind === 'warning'){ tone(190, 0.11, 'sawtooth', 0.035); tone(150, 0.14, 'sawtooth', 0.03, 0.1); }
   else if(kind === 'error'){ tone(165, 0.15, 'sawtooth', 0.04); }
   else if(kind === 'hint'){ tone(760, 0.08, 'sine', 0.05); tone(980, 0.1, 'sine', 0.04, 0.07); }
   else if(kind === 'win'){ [523,659,784,1047].forEach((f, i) => tone(f, 0.2, 'triangle', 0.06, i * 0.1)); }
@@ -1891,14 +2383,16 @@ function onTubeTap(ti){
   if(game.cleared.has(ti)){ toast('这杯已经消除了'); return; }
   const lock = game.locks.get(ti);
   if(lock){
-    toast('还需消除 ' + lock.remaining + ' 杯才能解锁');
+    tauntWrong('locked', '还需消除 ' + lock.remaining + ' 杯才能解锁');
     shakeCup(ti);
-    sfx('error');
     return;
   }
 
   if(selected === null){
-    if(!game.tubes[ti].length){ toast('空试管不能作为倒出方'); return; }
+    if(!game.tubes[ti].length){
+      tauntWrong('empty', '空试管不能作为倒出方');
+      return;
+    }
     selected = ti;
     sfx('tap');
     buzz(6);
@@ -1921,10 +2415,8 @@ function onTubeTap(ti){
     else if(game.tubes[b].length && game.tubes[b][game.tubes[b].length - 1].color !== topRunCells(game.tubes[a]).color){
       msg = '顶部颜色不同，不能倒入';
     }
-    toast(msg);
+    tauntWrong('pour', msg);
     shakeCup(b);
-    sfx('error');
-    buzz([8, 28, 8]);
     return;
   }
   doPour(a, b, r);
@@ -1974,9 +2466,11 @@ function doPour(a, b, r){
     const cb = 20 * Math.min(game.combo, 8);
     game.score += cb;
     game.scoreCombo += cb;
-    if(game.combo >= 2) status('连击 x' + game.combo + '！', 'ok');
+    if(game.combo >= 2) tauntCombo(game.combo);
   } else {
+    const oldCombo = game.combo;
     game.combo = 0;
+    if(oldCombo >= 2) tauntBroken(oldCombo);
   }
 
   selected = null;
@@ -2026,8 +2520,12 @@ function resolveMove(){
   const ordersDone = game.orders.every(o => o.got >= o.need);
   if(boardCleared && ordersDone){ finishWin(); return; }
   if(game.steps >= game.limit){ finishLose(); return; }
+  maybeStepPressure();
   if(!hasAnyMove(game.tubes, new Set(game.locks.keys()), game.cleared)){
     status('无路可走：可撤回、用空试管或重开本关', 'warn');
+    showRoast(pickRoast(ROASTS.stuck), 'danger', '棋盘封路 · 该认账了', 2600);
+    sfx('warning');
+    buzz([24, 45, 24]);
   }
 }
 
@@ -2188,12 +2686,14 @@ function resetLevel(){
   game.fxReveal = {};
   game.fxPulse = {};
   game.fxShake = {};
+  game.pressureSeen = new Set();
   selected = null;
   hintMove = null;
   anim = null;
   floaters = [];
   particles = [];
   status('');
+  hideRoast();
   updateHUD();
   drawOrders(true);
   layoutBoard();
@@ -2235,9 +2735,13 @@ $('gameSound').addEventListener('click', () => {
 document.querySelectorAll('#propsBar .prop').forEach(b => {
   b.addEventListener('click', () => useProp(b.dataset.prop));
 });
+$('voiceBoost').addEventListener('click', beginVoiceBoost);
 document.addEventListener('pointerdown', ensureAudio, {once:true});
 document.addEventListener('visibilitychange', () => {
-  if(document.hidden && currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
+  if(document.hidden){
+    stopVoiceRecognition();
+    if(currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
+  }
 });
 window.addEventListener('pagehide', () => {
   if(currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
@@ -2274,6 +2778,7 @@ function loop(now){
 renderHome();
 layoutHero();
 updateSoundLabels();
+setVoiceBoostUI('idle');
 if(save.sound){ /* 首次手势后再创建 AudioContext */ }
 requestAnimationFrame(loop);
 </script>
