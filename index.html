@@ -348,7 +348,7 @@ button{font-family:inherit;color:inherit;}
         <button id="hapticToggle">📳 震动开</button>
         <button id="helpBtn">📖 玩法</button>
       </div>
-      <p class="foot">每关道具各 1 次 · 全部关卡必可解 · 订单达成即通关</p>
+      <p class="foot">每关道具各 1 次 · 全部关卡必可解 · 清空全部色块即通关</p>
     </div>
   </section>
 
@@ -411,9 +411,9 @@ button{font-family:inherit;color:inherit;}
       <li><b>倒水</b>：点一个有水的杯子选中，再点另一个杯子。目标为空杯，或顶部颜色相同，且有空格，就能倒。</li>
       <li><b>部分倒入</b>：能倒多少倒多少，只剩 1 格也能倒入 1 格。</li>
       <li><b>消除</b>：一个杯子装满 4 格同色就会消失。</li>
-      <li><b>订单</b>：完成顶部订单要求的颜色杯数即通关，不必清空所有杯子。</li>
+      <li><b>订单</b>：顶部订单记录需要完成的颜色杯数；清空全部色块才算通关。</li>
       <li><b>隐藏色</b>：灰色「?」色块露出后揭晓；<b>隐藏杯</b>上的数字表示还需消除几杯才能解锁。</li>
-      <li><b>步数</b>：每关有步数上限，用完前完成订单。道具每关各 1 次；重开会重置棋盘，但不返还已用道具。</li>
+      <li><b>步数</b>：每关有步数上限，用完前清空全部色块。道具每关各 1 次；重开会重置棋盘，但不返还已用道具。</li>
     </ul>
     <button class="btn primary" id="helpClose">知道了</button>
   </div>
@@ -427,7 +427,7 @@ button{font-family:inherit;color:inherit;}
 const CAP = 4;
 const MAX_TUBES = 18;
 const SAVE_KEY = 'ybd_v3_save';
-const RESUME_KEY = 'ybd_v3_resume';
+const RESUME_KEY = 'ybd_v4_resume';
 
 /* 10 个色相拉开 + 每种颜色一个图形标记（色弱也能区分） */
 const COLORS = [
@@ -537,6 +537,12 @@ function applyInt(tubes, a, b){
 function canonInt(tubes){ return tubes.map(t => t.join('')).sort().join('|'); }
 function isSolvedInt(tubes){
   return tubes.every(t => !t.length || (t.length === CAP && t.every(x => x === t[0])));
+}
+function allColorsCleared(tubes, cleared){
+  for(let i = 0; i < tubes.length; i++){
+    if(tubes[i].length && !cleared.has(i)) return false;
+  }
+  return true;
 }
 function hasReadyTube(tubes){
   return tubes.some(t => t.length === CAP && t.every(x => x === t[0]));
@@ -671,25 +677,6 @@ function pickOrders(groupColors, maxCount){
   return orders;
 }
 
-/* par = 完整解走到“订单全部完成”时的步数（这条前缀本身就是可行解） */
-function computePar(state, solution, orders){
-  const need = orders.map(o => ({color:o.color, need:o.need, got:0}));
-  let cur = state.map(t => t.slice());
-  const cleared = new Set();
-  for(let i = 0; i < solution.length; i++){
-    cur = applyInt(cur, solution[i].a, solution[i].b);
-    for(let ti = 0; ti < cur.length; ti++){
-      if(!cleared.has(ti) && cur[ti].length === CAP && cur[ti].every(x => x === cur[ti][0])){
-        cleared.add(ti);
-        const col = cur[ti][0];
-        for(const o of need) if(o.color === col) o.got++;
-      }
-    }
-    if(need.every(o => o.got >= o.need)) return i + 1;
-  }
-  return null;
-}
-
 function tierParams(tier, level){
   const t = clamp((level - 1) / 49, 0, 1);
   return {
@@ -702,7 +689,7 @@ function tierParams(tier, level){
   };
 }
 
-/* 生成一关：随机 + 求解校验 + 隐藏杯/订单/步数上限 */
+/* 生成一关：随机 + 完整求解校验 + 隐藏杯/订单/步数上限 */
 function buildLevel(tier, level){
   const p = tierParams(tier, level);
   const distinct = Math.min(p.groups, COLORS.length);
@@ -718,8 +705,7 @@ function buildLevel(tier, level){
     for(let v = 0; v < rounds; v++){
       const sol = solve(st, budget, maxDepth, null, v > 0);
       if(!sol.res || sol.res === 'BUDGET') continue;
-      const par = computePar(st, sol.res, orders);
-      if(!par) continue;
+      const par = sol.res.length;
       if(!best || par < best.par) best = {solution:sol.res, par};
     }
     if(!best) return null;
@@ -1237,8 +1223,8 @@ function showResult(win){
     lines.push(['总分', total, true]);
   } else {
     lines.push(['已用步数', game.steps + ' / ' + game.limit]);
-    const missing = Math.max(0, game.orders.reduce((a, o) => a + Math.max(0, o.need - o.got), 0));
-    lines.push(['还差订单', missing + ' 杯']);
+    const remaining = game.tubes.reduce((n, t, i) => game.cleared.has(i) ? n : n + t.length, 0);
+    lines.push(['剩余色块', remaining + ' 格']);
     lines.push(['本局得分', game.score, true]);
   }
   $('resultLines').innerHTML = lines.map(l =>
@@ -1249,7 +1235,7 @@ function showResult(win){
   const tag = $('resultTag');
   if(win){
     tag.classList.remove('hide');
-    tag.textContent = perfect ? '完美通关 · 未使用提示/撤回' : (winStars === 3 ? '三星通关' : '达成订单');
+    tag.textContent = perfect ? '完美通关 · 未使用提示/撤回' : (winStars === 3 ? '三星通关' : '全部消除');
   } else {
     tag.classList.add('hide');
   }
@@ -2036,7 +2022,9 @@ function resolveMove(){
   }
 
   saveGameProgress();
-  if(game.orders.every(o => o.got >= o.need)){ finishWin(); return; }
+  const boardCleared = allColorsCleared(game.tubes, game.cleared);
+  const ordersDone = game.orders.every(o => o.got >= o.need);
+  if(boardCleared && ordersDone){ finishWin(); return; }
   if(game.steps >= game.limit){ finishLose(); return; }
   if(!hasAnyMove(game.tubes, new Set(game.locks.keys()), game.cleared)){
     status('无路可走：可撤回、用空试管或重开本关', 'warn');
@@ -2044,17 +2032,8 @@ function resolveMove(){
 }
 
 /* ===================== 道具 ===================== */
-function ordersMet(tubes, cleared, orders){
-  const got = new Map();
-  for(const ti of cleared){
-    const t = tubes[ti];
-    if(t && isCompleteInt(t)) got.set(t[0], (got.get(t[0]) || 0) + 1);
-  }
-  return orders.every(o => (got.get(o.color) || 0) >= o.need);
-}
-
-/* 以“完成订单”为目标的求解器；支持隐藏杯随消除数动态解锁 */
-function solveOrders(tubes, orders, cleared, locked, budget, maxDepth, jitter){
+/* 以“清空全部色块”为目标的求解器；支持隐藏杯随消除数动态解锁 */
+function solveClear(tubes, cleared, locked, budget, maxDepth, jitter){
   const startLocks = new Map([...locked].map(([ti, v]) => [ti, {total:v.total, remaining:v.remaining}]));
   const visited = new Map();
   let nodes = 0;
@@ -2062,7 +2041,7 @@ function solveOrders(tubes, orders, cleared, locked, budget, maxDepth, jitter){
   function dfs(state, clearedSet, lockMap, depth, prevA, prevB){
     nodes++;
     if(nodes > budget) return 'BUDGET';
-    if(ordersMet(state, clearedSet, orders)) return [];
+    if(allColorsCleared(state, clearedSet)) return [];
     if(depth >= maxDepth) return null;
 
     const stateKey = canonInt(state) +
@@ -2116,7 +2095,7 @@ function findHint(){
   const cleared = new Set(game.cleared);
   const locked = new Map([...game.locks].map(([ti, v]) => [ti, {total:v.total, remaining:v.remaining}]));
   for(let attempt = 0; attempt < 2; attempt++){
-    const res = solveOrders(ints, game.orders, cleared, locked, attempt ? 700000 : 400000, 150, attempt > 0);
+    const res = solveClear(ints, cleared, locked, attempt ? 700000 : 400000, 150, attempt > 0);
     if(Array.isArray(res) && res.length) return {a:res[0].a, b:res[0].b};
   }
   return null;
@@ -2146,7 +2125,7 @@ function useProp(kind){
       sfx('hint');
       updateHUD();
     } else {
-      status('当前没有能完成订单的提示，先撤回或重开试试', 'warn');
+      status('当前没有能清空全部色块的提示，先撤回或重开试试', 'warn');
       toast('提示未消耗');
       sfx('error');
     }
