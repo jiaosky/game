@@ -301,37 +301,37 @@ button{font-family:inherit;color:inherit;}
 .prop .p-cnt{font-size:9.5px;font-weight:900;color:var(--gold-d);font-variant-numeric:tabular-nums;}
 .prop .p-cnt.full{color:var(--green);}
 .prop.danger{background:linear-gradient(180deg,#fdf5f1,#f6e2d9);border-color:#e3bbaa;color:var(--red);}
-.voice-boost{
-  width:100%;margin-top:7px;border:1.5px dashed #d9b875;border-radius:13px;padding:6px 9px;
+.mercy-boost{
+  width:100%;margin-top:7px;border:1.5px dashed #d4aa63;border-radius:13px;padding:6px 9px;
   display:flex;align-items:center;gap:8px;cursor:pointer;text-align:left;
-  background:linear-gradient(180deg,rgba(255,252,242,.94),rgba(245,230,197,.92));
+  background:linear-gradient(180deg,rgba(255,249,237,.96),rgba(244,225,186,.94));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 6px rgba(140,100,55,.08);
   transition:border-color .18s ease,background .18s ease,transform .09s ease,opacity .18s ease;
 }
-.voice-boost:active{transform:scale(.99);}
-.voice-boost:disabled{opacity:.62;cursor:not-allowed;filter:grayscale(.15);}
-.voice-boost .vb-ico{
+.mercy-boost:active{transform:scale(.99);}
+.mercy-boost:disabled{opacity:.62;cursor:not-allowed;filter:grayscale(.15);}
+.mercy-boost .vb-ico{
   width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;
   font-size:17px;background:#f8e9c6;border:1px solid #e4c98f;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
 }
-.voice-boost .vb-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px;}
-.voice-boost .vb-title{font-size:11px;font-weight:900;color:#76501d;letter-spacing:.2px;}
-.voice-boost .vb-hint{font-size:9.5px;line-height:1.25;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.voice-boost .vb-state{
+.mercy-boost .vb-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px;}
+.mercy-boost .vb-title{font-size:11px;font-weight:900;color:#76501d;letter-spacing:.2px;}
+.mercy-boost .vb-hint{font-size:9.5px;line-height:1.25;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mercy-boost .vb-state{
   flex:0 0 auto;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;
   color:#8a5c0c;background:#f5dfae;border:1px solid #e3c47e;
 }
-.voice-boost.listening{border-color:#cf8c2b;background:linear-gradient(180deg,#fff8df,#f8e4af);}
-.voice-boost.listening .vb-ico{background:#ffe6ad;animation:voicePulse .9s ease-in-out infinite;}
-.voice-boost.listening .vb-state{color:#fff;background:#c47c20;border-color:#b26b11;}
-.voice-boost.success{border-color:#83c69f;background:linear-gradient(180deg,#f3fff7,#dff3e6);}
-.voice-boost.success .vb-state{color:#fff;background:#2e9e6b;border-color:#26865a;}
-.voice-boost.error{border-color:#e2b0a4;background:linear-gradient(180deg,#fff8f4,#f5e3dc);}
-.voice-boost.error .vb-state{color:#fff;background:#b8523d;border-color:#a34431;}
-.voice-boost.claimed,.voice-boost.full{border-color:#d8c8a9;background:linear-gradient(180deg,#fffaf0,#f2e8d5);}
-.voice-boost.claimed .vb-state,.voice-boost.full .vb-state{color:#7d6349;background:#eadcc0;border-color:#d8c8a9;}
-@keyframes voicePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(210,140,35,.28)}50%{transform:scale(1.07);box-shadow:0 0 0 5px rgba(210,140,35,0)}}
+.mercy-boost.ready{border-color:#cf8c2b;background:linear-gradient(180deg,#fff8df,#f8e4af);}
+.mercy-boost.ready .vb-state{color:#fff;background:#c47c20;border-color:#b26b11;}
+.mercy-boost.success{border-color:#83c69f;background:linear-gradient(180deg,#f3fff7,#dff3e6);}
+.mercy-boost.success .vb-ico{animation:mercyPop .42s ease-out;}
+.mercy-boost.success .vb-state{color:#fff;background:#2e9e6b;border-color:#26865a;}
+.mercy-boost.claimed{border-color:#d8c8a9;background:linear-gradient(180deg,#fffaf0,#f2e8d5);}
+.mercy-boost.claimed .vb-state{color:#7d6349;background:#eadcc0;border-color:#d8c8a9;}
+.mercy-boost.blocked{border-color:#e2b0a4;background:linear-gradient(180deg,#fff8f4,#f5e3dc);}
+.mercy-boost.blocked .vb-state{color:#fff;background:#b8523d;border-color:#a34431;}
+@keyframes mercyPop{0%{transform:scale(.7) rotate(-12deg)}60%{transform:scale(1.14) rotate(5deg)}100%{transform:none}}
 
 /* ---------- modal / toast ---------- */
 .modal{
@@ -445,8 +445,8 @@ button{font-family:inherit;color:inherit;}
   .roast-avatar{width:27px;height:27px;flex-basis:27px;font-size:16px;}
   .prop{padding:6px 2px 5px;}
   .prop .p-ico{font-size:17px;}
-  .voice-boost{margin-top:5px;padding:4px 8px;}
-  .voice-boost .vb-ico{width:27px;height:27px;flex-basis:27px;font-size:15px;}
+  .mercy-boost{margin-top:5px;padding:4px 8px;}
+  .mercy-boost .vb-ico{width:27px;height:27px;flex-basis:27px;font-size:15px;}
   .brand h1{font-size:30px;}
   #heroCanvas{width:206px;height:100px;}
   .hero-wrap{margin-top:-4px;}
@@ -472,7 +472,7 @@ button{font-family:inherit;color:inherit;}
         <button id="hapticToggle">📳 震动开</button>
         <button id="helpBtn">📖 玩法</button>
       </div>
-      <p class="foot">每档开局各 1 件 · 每 5 关随机补给 · 额外只能喊“我是菜狗”</p>
+      <p class="foot">每档开局各 1 件 · 每 5 关自动补给 · 菜狗急救每局限 1 次</p>
     </div>
   </section>
 
@@ -522,13 +522,13 @@ button{font-family:inherit;color:inherit;}
       <button class="prop" data-prop="undo"><span class="p-ico">↩️</span><span class="p-name">撤回</span><span class="p-cnt" id="cnt-undo">×1</span></button>
       <button class="prop danger" data-prop="reset"><span class="p-ico">🔄</span><span class="p-name">重开</span></button>
     </div>
-    <button class="voice-boost" id="voiceBoost" type="button" aria-describedby="voiceHint">
-      <span class="vb-ico" aria-hidden="true">🎙️</span>
+    <button class="mercy-boost" id="mercyBoost" type="button" aria-describedby="mercyHint">
+      <span class="vb-ico" aria-hidden="true">🫵</span>
       <span class="vb-copy">
-        <span class="vb-title">菜狗补给站</span>
-        <span class="vb-hint" id="voiceHint" role="status" aria-live="polite">每 5 关可认菜 1 次 · 喊“我是菜狗”随机 +1</span>
+        <span class="vb-title">菜狗急救站</span>
+        <span class="vb-hint" id="mercyHint" role="status" aria-live="polite">道具全空才能随机补 1 件 · 本局限 1 次</span>
       </span>
-      <span class="vb-state" id="voiceState">开始</span>
+      <span class="vb-state" id="mercyState">求骂</span>
     </button>
   </section>
 </div>
@@ -561,7 +561,7 @@ button{font-family:inherit;color:inherit;}
       <li><b>步数</b>：每关有步数上限，用完前清空全部色块。重开会重置棋盘，但不会返还已用道具。</li>
       <li><b>道具库存</b>：每个难度开局获得空试管、提示、撤回各 1 件，跨关保留；库存上限分别为 3 / 2 / 3。</li>
       <li><b>自动补给</b>：首次通过每个难度的第 5、10、15…50 关，自动随机获得 1 件道具；满仓时改为 +300 分。</li>
-      <li><b>菜狗补给</b>：每 5 关为一个补给段，每段只能靠语音喊出“我是菜狗”，额外随机获得 1 件道具。需要允许麦克风权限，识别依赖浏览器与网络。</li>
+      <li><b>菜狗急救</b>：空试管、提示、撤回全部为 0 时，点击急救站会随机获得 1 件临时道具；每局限 1 次，未使用会在下一关作废。道具还没用完时点击，只会收获嘲讽。</li>
       <li><b>毒舌裁判</b>：连击越高嘴越硬，翻车时更不留情。它只负责拱火，不影响规则和判定。</li>
     </ul>
     <button class="btn primary" id="helpClose">知道了</button>
@@ -749,7 +749,7 @@ function defaultSave(){
     levels:{}, unlocked:{nuofu:1,caigou:1,benben:1,tianlong:1},
     last:{tier:'nuofu', level:1},
     sound:true, haptic:true, tutorialDone:false,
-    econVersion:ECON_VERSION, inventories, propRewardLog, voiceClaims:{}
+    econVersion:ECON_VERSION, inventories, propRewardLog
   };
 }
 function readJsonStorage(key){
@@ -815,8 +815,7 @@ function loadSave(){
       tutorialDone: !!s.tutorialDone,
       econVersion:ECON_VERSION,
       inventories,
-      propRewardLog,
-      voiceClaims: s.voiceClaims && typeof s.voiceClaims === 'object' ? Object.assign({}, s.voiceClaims) : {}
+      propRewardLog
     };
   }catch(e){ return defaultSave(); }
 }
@@ -849,43 +848,38 @@ function inventoryForTier(tierKey, create){
   save.inventories[tierKey] = normalizeInventory(save.inventories[tierKey], emptyInventory());
   return save.inventories[tierKey];
 }
+function persistentInventoryFromGame(){
+  if(!game) return emptyInventory();
+  const inv = cloneInventory(game.props);
+  const bonus = game.mercyReward;
+  if(bonus && !bonus.consumed && PROP_META[bonus.kind]){
+    inv[bonus.kind] = Math.max(0, inv[bonus.kind] - (Number(bonus.amount) || 1));
+  }
+  return inv;
+}
 function syncInventoryFromGame(){
   if(!game) return;
-  save.inventories[game.tier.key] = normalizeInventory(game.props, emptyInventory());
+  save.inventories[game.tier.key] = persistentInventoryFromGame();
 }
 function propRewardLedger(tierKey){
   if(!save.propRewardLog) save.propRewardLog = {};
   if(!save.propRewardLog[tierKey]) save.propRewardLog[tierKey] = {};
   return save.propRewardLog[tierKey];
 }
-function supplySectionFor(level){
-  return Math.max(1, Math.ceil(clamp(Number(level) || 1, 1, 50) / SUPPLY_EVERY));
-}
-function supplySectionRange(level){
-  const section = supplySectionFor(level);
-  return {section, start:(section - 1) * SUPPLY_EVERY + 1, end:section * SUPPLY_EVERY};
-}
-function voiceClaimKey(tierKey, level){
-  return tierKey + ':' + supplySectionFor(level);
-}
-function voiceClaimedForCurrent(){
-  if(!game) return false;
-  return !!save.voiceClaims[voiceClaimKey(game.tier.key, game.level)];
-}
-function propsAllFull(){
-  return !!game && inventoryIsFull(game.props);
+function propsAllEmpty(){
+  return !!game && PROP_KEYS.every(k => game.props[k] <= 0);
 }
 function awardSupply(kind, amount){
   if(!game || !PROP_META[kind]) return;
   game.props[kind] = Math.max(0, Math.min(PROP_META[kind].cap, game.props[kind] + (amount || 1)));
 }
-function rollSupply(mercy){
+function rollSupply(){
   const inv = normalizeInventory(game ? game.props : emptyInventory(), emptyInventory());
   const available = PROP_KEYS.filter(k => inv[k] < PROP_META[k].cap);
   if(!available.length){
     return {kind:'score', amount:SCORE_SUPPLY, name:'分数', icon:'💎', quip:'仓库满了，这箱直接折现。至少没白过。'};
   }
-  const weights = available.map(k => PROP_META[k].weight * (mercy && inv[k] === 0 ? 2 : 1));
+  const weights = available.map(k => PROP_META[k].weight);
   const total = weights.reduce((a, b) => a + b, 0);
   let r = Math.random() * total;
   let kind = available[available.length - 1];
@@ -893,6 +887,13 @@ function rollSupply(mercy){
     r -= weights[i];
     if(r < 0){ kind = available[i]; break; }
   }
+  return {kind, amount:1, name:PROP_META[kind].name, icon:PROP_META[kind].icon, quip:PROP_META[kind].quip};
+}
+function rollMercySupply(){
+  if(!game) return null;
+  const available = PROP_KEYS.filter(k => game.props[k] < PROP_META[k].cap);
+  if(!available.length) return null;
+  const kind = available[Math.floor(Math.random() * available.length)];
   return {kind, amount:1, name:PROP_META[kind].name, icon:PROP_META[kind].icon, quip:PROP_META[kind].quip};
 }
 function nextSupplyMilestone(level){
@@ -1224,13 +1225,8 @@ let floaters = [];
 let particles = [];
 let helpAuto = false;
 let resultAction = null;
-const VOICE_PHRASE = '我是菜狗';
-const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-let voiceRecognition = null;
-let voiceListening = false;
-let voiceRewarded = false;
-let voiceStopRequested = false;
-let voiceResetTimer = 0;
+const MERCY_TAUNT = '玩不下去了吗？是天生不会玩吗？';
+let mercyResetTimer = 0;
 
 /* ===================== 当前对局恢复 ===================== */
 function packLocks(map){
@@ -1305,6 +1301,8 @@ function saveGameProgress(){
       combo:game.combo,
       maxCombo:game.maxCombo,
       props:cloneInventory(game.props),
+      mercyClaimed:!!game.mercyClaimed,
+      mercyReward:game.mercyReward ? Object.assign({}, game.mercyReward) : null,
       usedHint:game.usedHint,
       usedUndo:game.usedUndo,
       history:game.history.map(packSnapshot)
@@ -1330,6 +1328,11 @@ function restoreGameProgress(data){
     return false;
   }
   const initialOrders = data.initialOrders.map(o => ({color:o.color, need:o.need, got:0}));
+  const fallbackProps = cloneInventory(inventoryForTier(tier.key, true));
+  const restoredProps = data.props ? normalizeInventory(data.props, fallbackProps) : fallbackProps;
+  const restoredMercy = data.mercyReward && PROP_META[data.mercyReward.kind]
+    ? {kind:data.mercyReward.kind, amount:1, consumed:!!data.mercyReward.consumed, at:Number(data.mercyReward.at) || 0}
+    : null;
   game = {
     tier,
     level:clamp(data.level || 1, 1, 50),
@@ -1350,7 +1353,9 @@ function restoreGameProgress(data){
     scoreCombo:data.scoreCombo || 0,
     combo:data.combo || 0,
     maxCombo:data.maxCombo || 0,
-    props:cloneInventory(inventoryForTier(tier.key, true)),
+    props:restoredProps,
+    mercyClaimed:!!data.mercyClaimed,
+    mercyReward:restoredMercy,
     history:(data.history || []).map(unpackSnapshot),
     usedHint:!!data.usedHint,
     usedUndo:!!data.usedUndo,
@@ -1380,7 +1385,6 @@ function restoreGameProgress(data){
 function showScreen(name){
   currentScreen = name;
   Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === name));
-  if(name !== 'game') stopVoiceRecognition();
   if(name === 'home'){
     renderHome();
     layoutHero();
@@ -1388,7 +1392,7 @@ function showScreen(name){
     renderMap();
   } else if(name === 'game'){
     layoutBoard();
-    setVoiceBoostUI(defaultVoiceState());
+    setMercyUI(defaultMercyState());
   }
 }
 
@@ -1407,233 +1411,125 @@ function status(msg, tone){
   if(msg && tone) el.classList.add(tone);
 }
 
-/* ===================== 语音补给 ===================== */
-function defaultVoiceState(){
+/* ===================== 菜狗急救 ===================== */
+function defaultMercyState(){
   if(!game) return 'idle';
   if(game.finished) return 'disabled';
-  if(voiceClaimedForCurrent()) return 'claimed';
-  if(propsAllFull()) return 'full';
-  return 'idle';
+  if(game.mercyClaimed) return 'claimed';
+  if(propsAllEmpty()) return 'ready';
+  return 'blocked';
 }
 
-function voiceIdleText(){
-  if(!game) return '每 5 关可认菜 1 次 · 喊“我是菜狗”随机 +1';
-  const sec = supplySectionRange(game.level);
-  return '第 ' + sec.start + '–' + sec.end + ' 关可认菜 1 次 · 喊“我是菜狗”随机 +1';
+function mercyIdleText(){
+  if(!game) return '道具全空才能随机补 1 件 · 本局限 1 次';
+  if(game.mercyClaimed) return '本局临时补给已领 · 下一关自动作废';
+  if(propsAllEmpty()) return '道具全空 · 点一下随机补 1 件，本局有效';
+  return '道具还没用完 · 点一下只会挨嘲讽';
 }
 
-function setVoiceBoostUI(state, detail){
-  const btn = $('voiceBoost');
+function setMercyUI(state, detail){
+  const btn = $('mercyBoost');
   if(!btn) return;
-  const hint = $('voiceHint');
-  const badge = $('voiceState');
-  clearTimeout(voiceResetTimer);
-  btn.classList.remove('listening', 'success', 'error', 'claimed', 'full');
+  const hint = $('mercyHint');
+  const badge = $('mercyState');
+  clearTimeout(mercyResetTimer);
+  btn.classList.remove('ready', 'success', 'claimed', 'blocked');
   btn.disabled = false;
-
-  if(!SpeechRecognitionCtor){
-    btn.classList.add('error');
-    btn.disabled = true;
-    hint.textContent = '此浏览器不支持语音识别，请使用 Chrome / Edge';
-    badge.textContent = '不支持';
-    return;
-  }
-  if(!state) state = defaultVoiceState();
+  if(!state) state = defaultMercyState();
   if(game && game.finished && state !== 'success') state = 'disabled';
 
-  if(state === 'listening'){
-    btn.classList.add('listening');
-    hint.textContent = detail || '正在听，请完整说“我是菜狗”';
-    badge.textContent = '聆听中';
+  if(state === 'ready'){
+    btn.classList.add('ready');
+    hint.textContent = detail || '道具全空 · 点一下随机补 1 件，本局有效';
+    badge.textContent = '能领';
   } else if(state === 'success'){
     btn.classList.add('success');
-    hint.textContent = detail || '随机补给已入库';
+    hint.textContent = detail || '随机临时补给已到账 · 本局有效';
     badge.textContent = '+1';
-  } else if(state === 'error'){
-    btn.classList.add('error');
-    hint.textContent = detail || '没听清，再点一下重试';
-    badge.textContent = '重试';
   } else if(state === 'claimed'){
     btn.classList.add('claimed');
-    btn.disabled = true;
-    const sec = game ? supplySectionRange(game.level) : null;
-    hint.textContent = detail || (sec ? '第 ' + sec.start + '–' + sec.end + ' 关补给已领 · 下一段再来' : '本段补给已领');
+    hint.textContent = detail || '本局已经救过 1 次 · 再点只有嘲讽';
     badge.textContent = '已领';
-  } else if(state === 'full'){
-    btn.classList.add('full');
-    btn.disabled = true;
-    hint.textContent = detail || '道具满了 · 先用掉再认菜';
-    badge.textContent = '满仓';
+  } else if(state === 'blocked'){
+    btn.classList.add('blocked');
+    hint.textContent = detail || '道具还没用完 · 点一下只会挨嘲讽';
+    badge.textContent = '求骂';
   } else if(state === 'disabled'){
     btn.disabled = true;
-    hint.textContent = '本关已结束，下一关再来补给';
+    hint.textContent = '本关已结束，下一关重新开始';
     badge.textContent = '结束';
   } else {
-    hint.textContent = detail || voiceIdleText();
-    badge.textContent = '开喊';
+    hint.textContent = detail || mercyIdleText();
+    badge.textContent = '求骂';
   }
-  if(state === 'success') btn.disabled = true;
 }
 
-function resetVoiceBoostSoon(delay){
-  clearTimeout(voiceResetTimer);
-  voiceResetTimer = setTimeout(() => {
-    voiceResetTimer = 0;
-    if(!voiceListening) setVoiceBoostUI(defaultVoiceState());
+function resetMercyUISoon(delay){
+  clearTimeout(mercyResetTimer);
+  mercyResetTimer = setTimeout(() => {
+    mercyResetTimer = 0;
+    setMercyUI(defaultMercyState());
   }, delay);
 }
 
-function isVoicePhrase(text){
-  const compact = String(text || '').replace(/[\s，。！？、,.!?;；:："'“”‘’（）()【】\[\]…—_-]/g, '');
-  return compact === VOICE_PHRASE || compact === '我是菜狗啊' || compact === '我是菜狗呀' || compact === '我是菜狗啦' || compact === '我是菜狗吧';
+function markMercyRewardUsed(kind){
+  if(!game || !game.mercyReward) return;
+  if(!game.mercyReward.consumed && game.mercyReward.kind === kind){
+    game.mercyReward.consumed = true;
+    game.mercyReward.usedAt = Date.now();
+  }
 }
 
-function grantVoiceBoost(){
-  if(!game || game.finished) return false;
-  if(voiceClaimedForCurrent()) return false;
-  if(propsAllFull()) return false;
-  const reward = rollSupply(true);
-  if(reward.kind === 'score') return false;
-  awardSupply(reward.kind, reward.amount);
-  const sec = supplySectionRange(game.level);
-  save.voiceClaims[voiceClaimKey(game.tier.key, game.level)] = {
-    kind:reward.kind, amount:reward.amount, at:Date.now(), section:sec.section
-  };
-  syncInventoryFromGame();
-  persist();
+function tauntMercy(text){
+  const line = text || MERCY_TAUNT;
+  status(line, 'warn');
+  showRoast(line, 'danger', '菜狗急救 · 只负责嘲笑', 2800);
+  sfx('mock');
+  buzz([10, 30, 12]);
+}
+
+function grantMercySupply(){
+  if(!game || game.finished || game.mercyClaimed || !propsAllEmpty()) return null;
+  const reward = rollMercySupply();
+  if(!reward) return null;
+  game.props[reward.kind] += reward.amount;
+  game.mercyClaimed = true;
+  game.mercyReward = {kind:reward.kind, amount:reward.amount, consumed:false, at:Date.now()};
+  saveGameProgress();
   updateHUD();
-  setVoiceBoostUI('success', '随机补给到账：' + reward.icon + ' ' + reward.name + ' ×' + reward.amount);
+  setMercyUI('success', '随机救你：' + reward.icon + ' ' + reward.name + ' ×' + reward.amount + ' · 下局作废');
+  status('随机临时补给：' + reward.name + ' +' + reward.amount + ' · 下一关不继承', 'ok');
+  toast('菜狗急救到账：' + reward.icon + ' ' + reward.name + ' +' + reward.amount);
+  showRoast(MERCY_TAUNT + ' 赏你一个' + reward.name + '，用完这局就没了。', 'break', '菜狗急救 · 本局限 1 次', 3200);
   sfx('win');
-  buzz([12, 28, 12]);
-  status('“我是菜狗”认证成功：' + reward.name + ' +' + reward.amount, 'ok');
-  toast('菜狗补给到账：' + reward.icon + ' ' + reward.name + ' +' + reward.amount);
-  showRoast(reward.quip, 'break', '菜狗认证 · 第 ' + sec.start + '–' + sec.end + ' 关', 2400);
-  return true;
+  buzz([12, 28, 12, 28, 18]);
+  resetMercyUISoon(3400);
+  return reward;
 }
 
-function stopVoiceRecognition(){
-  if(!voiceListening || !voiceRecognition) return;
-  voiceStopRequested = true;
-  try{ voiceRecognition.abort(); }catch(e){}
-}
-
-function beginVoiceBoost(){
+function handleMercyClick(){
   ensureAudio();
-  if(!game){ toast('当前没有可补给的关卡'); return; }
-  const gate = defaultVoiceState();
-  if(gate === 'claimed'){
-    setVoiceBoostUI('claimed');
-    toast('这一段已经认过菜了，下一段再来');
-    return;
-  }
-  if(gate === 'full'){
-    setVoiceBoostUI('full');
-    toast('道具满仓，先用掉一件再喊');
-    return;
-  }
-  if(gate === 'disabled'){ toast('当前没有可补给的关卡'); return; }
-  if(!SpeechRecognitionCtor){
-    setVoiceBoostUI('idle');
-    toast('当前浏览器不支持语音识别，请使用 Chrome / Edge');
-    return;
-  }
-  if(voiceListening){
-    stopVoiceRecognition();
-    setVoiceBoostUI(defaultVoiceState(), '已停止聆听，再点一次重试');
-    return;
-  }
+  if(!game){ toast('当前没有可急救的关卡'); return; }
+  if(game.finished){ toast('本关已经结束，下一关再挨骂'); return; }
+  clearTimeout(mercyResetTimer);
 
-  clearTimeout(voiceResetTimer);
-  voiceRewarded = false;
-  voiceStopRequested = false;
-  let errorText = '';
-  let rec;
-  try{
-    rec = new SpeechRecognitionCtor();
-  }catch(e){
-    setVoiceBoostUI('error', '语音识别启动失败，请刷新页面重试');
+  if(game.mercyClaimed){
+    const line = '本局已经救过你一次了，还是玩不下去？';
+    setMercyUI('claimed', '本局已经救过 1 次 · 再点只有嘲讽');
+    tauntMercy(line);
     return;
   }
-
-  voiceRecognition = rec;
-  voiceListening = true;
-  rec.lang = 'zh-CN';
-  rec.interimResults = true;
-  rec.continuous = false;
-  rec.maxAlternatives = 5;
-  setVoiceBoostUI('listening');
-
-  rec.onstart = () => {
-    if(voiceRecognition !== rec || voiceRewarded) return;
-    setVoiceBoostUI('listening');
-  };
-  rec.onresult = event => {
-    if(voiceRecognition !== rec || voiceRewarded) return;
-    let heard = '';
-    for(let i = event.resultIndex; i < event.results.length && !voiceRewarded; i++){
-      const result = event.results[i];
-      for(let j = 0; j < result.length; j++){
-        const alt = result[j];
-        if(!alt || !alt.transcript) continue;
-        if(isVoicePhrase(alt.transcript)){
-          if(grantVoiceBoost()){
-            voiceRewarded = true;
-          } else {
-            setVoiceBoostUI(defaultVoiceState());
-          }
-          try{ rec.stop(); }catch(e){}
-          break;
-        }
-      }
-      if(!voiceRewarded && result[0]) heard += result[0].transcript;
-    }
-    if(!voiceRewarded && heard){
-      const short = heard.trim().slice(-18);
-      setVoiceBoostUI('listening', short ? '听到：“' + short + '”' : '');
-    }
-  };
-  rec.onerror = event => {
-    if(voiceRecognition !== rec || voiceRewarded) return;
-    if(event.error === 'aborted' && voiceStopRequested) return;
-    const errors = {
-      'not-allowed':'麦克风权限被拒绝，请在浏览器设置中允许访问',
-      'service-not-allowed':'浏览器禁用了语音识别服务',
-      'audio-capture':'没有找到可用的麦克风',
-      'no-speech':'没听到声音，再点一下重试',
-      'network':'语音识别服务连接失败，请检查网络',
-      'language-not-supported':'当前浏览器不支持中文语音识别'
-    };
-    errorText = errors[event.error] || '语音识别失败，请再试一次';
-    setVoiceBoostUI('error', errorText);
-    status(errorText, 'warn');
-    toast(errorText);
-  };
-  rec.onend = () => {
-    if(voiceRecognition !== rec) return;
-    voiceListening = false;
-    voiceRecognition = null;
-    if(voiceRewarded){
-      resetVoiceBoostSoon(2600);
-    } else if(voiceStopRequested){
-      setVoiceBoostUI(defaultVoiceState(), '已停止聆听，再点一次重试');
-    } else if(errorText){
-      resetVoiceBoostSoon(3200);
-    } else {
-      setVoiceBoostUI('error', '没听清，再点一下重试');
-      status('没听清口令，再点麦克风说一次', 'warn');
-      resetVoiceBoostSoon(3000);
-    }
-  };
-
-  try{
-    rec.start();
-  }catch(e){
-    voiceListening = false;
-    voiceRecognition = null;
-    setVoiceBoostUI('error', '语音识别启动失败，请刷新页面重试');
+  if(!propsAllEmpty()){
+    const left = PROP_KEYS.map(k => PROP_META[k].name + '×' + game.props[k]).join(' · ');
+    setMercyUI('blocked', '还有道具：' + left);
+    tauntMercy(MERCY_TAUNT + ' 道具都还没用完，先自己救。');
+    return;
+  }
+  if(!grantMercySupply()){
+    setMercyUI('blocked', '这次连补给都没得给');
+    tauntMercy(MERCY_TAUNT + ' 这次连补给都没得给。');
   }
 }
-
 /* ===================== 毒舌反馈 ===================== */
 let lastRoast = '';
 function fillRoast(line, vars){
@@ -1844,6 +1740,8 @@ function startLevel(tierKey, level){
     score: 0, scorePour: 0, scoreClear: 0, scoreCombo: 0,
     combo: 0, maxCombo: 0,
     props: cloneInventory(inventoryForTier(tier.key, true)),
+    mercyClaimed: false,
+    mercyReward: null,
     history: [],
     usedHint: false, usedUndo: false,
     fxCleared: {}, fxReveal: {}, fxPulse: {}, fxShake: {},
@@ -1936,12 +1834,7 @@ function updateHUD(){
     const cnt = b.querySelector('.p-cnt');
     if(cnt) cnt.classList.toggle('full', game.props[k] >= PROP_META[k].cap);
   });
-  if(game.finished){
-    stopVoiceRecognition();
-    setVoiceBoostUI('disabled');
-  } else if(!voiceListening && !voiceRewarded){
-    setVoiceBoostUI(defaultVoiceState());
-  }
+  setMercyUI(defaultMercyState());
 }
 
 /* ===================== 弹窗 ===================== */
@@ -2094,7 +1987,7 @@ function finishWin(){
   if(!prev && game.level % SUPPLY_EVERY === 0){
     const ledger = propRewardLedger(game.tier.key);
     if(!ledger[String(game.level)]){
-      reward = rollSupply(false);
+      reward = rollSupply();
       ledger[String(game.level)] = {kind:reward.kind, amount:reward.amount, at:Date.now()};
       if(reward.kind === 'score') supplyScore = reward.amount;
       else awardSupply(reward.kind, reward.amount);
@@ -2956,6 +2849,7 @@ function useProp(kind){
     if(game.tubes.length >= MAX_TUBES){ toast('试管已达上限'); return; }
     game.props.tube--;
     game.tubes.push([]);
+    markMercyRewardUsed('tube');
     game.fxPulse[game.tubes.length - 1] = performance.now();
     sfx('pour');
     updateHUD();
@@ -2966,6 +2860,7 @@ function useProp(kind){
     const mv = findHint();
     if(mv){
       game.props.hint--;
+      markMercyRewardUsed('hint');
       game.usedHint = true;
       hintMove = mv;
       status('提示：金色杯 → 绿色杯', 'info');
@@ -2980,6 +2875,7 @@ function useProp(kind){
     if(game.props.undo <= 0 || !game.history.length) return;
     const snap = game.history.pop();
     game.props.undo--;
+    markMercyRewardUsed('undo');
     game.usedUndo = true;
     game.tubes = snap.tubes;
     game.cleared = snap.cleared;
@@ -3084,13 +2980,10 @@ $('gameSound').addEventListener('click', () => {
 document.querySelectorAll('#propsBar .prop').forEach(b => {
   b.addEventListener('click', () => useProp(b.dataset.prop));
 });
-$('voiceBoost').addEventListener('click', beginVoiceBoost);
+$('mercyBoost').addEventListener('click', handleMercyClick);
 document.addEventListener('pointerdown', ensureAudio, {once:true});
 document.addEventListener('visibilitychange', () => {
-  if(document.hidden){
-    stopVoiceRecognition();
-    if(currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
-  }
+  if(document.hidden && currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
 });
 window.addEventListener('pagehide', () => {
   if(currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
@@ -3135,7 +3028,7 @@ syncViewportHeight();
 renderHome();
 layoutHero();
 updateSoundLabels();
-setVoiceBoostUI('idle');
+setMercyUI('idle');
 if(save.sound){ /* 首次手势后再创建 AudioContext */ }
 requestAnimationFrame(loop);
 </script>
