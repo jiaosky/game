@@ -32,6 +32,7 @@ body{
 }
 #app{
   position:fixed;inset:0;width:100%;max-width:520px;margin:0 auto;
+  height:var(--app-height,100dvh);max-height:var(--app-height,100dvh);
   display:flex;flex-direction:column;
   padding:calc(var(--st) + 8px) 12px calc(var(--sb) + 8px);
 }
@@ -158,11 +159,14 @@ button{font-family:inherit;color:inherit;}
 .chapter-head span{font-size:10.5px;color:var(--ink2);font-weight:700;}
 .dots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px 10px;}
 .dot{
-  width:100%;max-width:52px;min-height:40px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;justify-self:center;
+  position:relative;width:100%;max-width:52px;min-height:40px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;justify-self:center;
   font-size:11.5px;font-weight:900;border:1.5px solid #dcc49b;
   background:linear-gradient(180deg,#fdf5e4,#f3e4c6);color:#8a6e4c;cursor:pointer;
   transition:transform .08s ease;
 }
+.dot .supply-mark{position:absolute;right:-5px;top:-6px;font-size:12px;line-height:1;filter:drop-shadow(0 1px 1px rgba(80,50,15,.25));}
+.dot .supply-mark.got{font-size:10px;color:#2e9e6b;background:#e7f7ed;border:1px solid #a7d9bb;border-radius:50%;padding:2px 3px;}
+.dot.locked .supply-mark{filter:grayscale(1);opacity:.45;}
 .dot:active{transform:scale(.9);}
 .dot.cleared{color:#4a2e00;border-color:#b9862a;background:linear-gradient(180deg,#ffe08a,#d79b22);}
 .dot.cleared.s2{background:linear-gradient(180deg,#f3eee0,#c3b79c);border-color:#a99b7f;color:#4b4232;}
@@ -238,35 +242,47 @@ button{font-family:inherit;color:inherit;}
     0 12px 30px rgba(90,55,20,.28);
 }
 #board{display:block;}
+.feedback-dock{
+  position:relative;flex:0 0 48px;min-height:48px;margin:2px 0 4px;
+  display:flex;align-items:center;justify-content:center;
+}
 .roast-pop{
-  position:absolute;left:12px;right:12px;bottom:12px;z-index:3;pointer-events:none;
-  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;
-  color:#fff7e7;background:linear-gradient(135deg,rgba(49,29,15,.97),rgba(112,56,21,.95));
-  border:1px solid rgba(255,207,112,.48);
-  box-shadow:0 12px 28px rgba(24,12,4,.42),inset 0 1px 0 rgba(255,255,255,.13);
-  opacity:0;transform:translateY(16px) scale(.96);visibility:hidden;
+  position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;
+  display:flex;align-items:center;gap:9px;padding:4px 9px;border-radius:13px;
+  color:#fff7e7;background:linear-gradient(135deg,rgba(49,29,15,.88),rgba(112,56,21,.78));
+  border:1px solid rgba(255,207,112,.42);
+  box-shadow:0 5px 14px rgba(24,12,4,.24),inset 0 1px 0 rgba(255,255,255,.13);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  opacity:0;transform:translateY(8px) scale(.98);visibility:hidden;
   transition:opacity .16s ease,transform .2s cubic-bezier(.2,.9,.3,1.15),visibility .16s;
 }
 .roast-pop.show{opacity:1;transform:none;visibility:visible;animation:roastKick .28s cubic-bezier(.2,.9,.3,1.15);}
-.roast-pop[data-mode="hot"]{background:linear-gradient(135deg,rgba(80,34,14,.97),rgba(166,65,16,.95));border-color:rgba(255,187,83,.62);}
-.roast-pop[data-mode="blazing"]{background:linear-gradient(135deg,rgba(103,21,15,.98),rgba(178,42,24,.96));border-color:rgba(255,194,94,.72);}
-.roast-pop[data-mode="break"]{background:linear-gradient(135deg,rgba(61,30,29,.98),rgba(118,43,39,.96));border-color:rgba(235,139,116,.58);}
-.roast-pop[data-mode="danger"]{background:linear-gradient(135deg,rgba(83,24,18,.98),rgba(154,40,27,.96));border-color:rgba(255,146,100,.65);}
-.roast-pop[data-mode="loss"]{background:linear-gradient(135deg,rgba(74,18,17,.99),rgba(145,32,27,.97));border-color:rgba(255,124,101,.72);}
+.roast-pop[data-mode="hot"]{background:linear-gradient(135deg,rgba(80,34,14,.88),rgba(166,65,16,.80));border-color:rgba(255,187,83,.56);}
+.roast-pop[data-mode="blazing"]{background:linear-gradient(135deg,rgba(103,21,15,.90),rgba(178,42,24,.82));border-color:rgba(255,194,94,.64);}
+.roast-pop[data-mode="break"]{background:linear-gradient(135deg,rgba(61,30,29,.90),rgba(118,43,39,.82));border-color:rgba(235,139,116,.52);}
+.roast-pop[data-mode="danger"]{background:linear-gradient(135deg,rgba(83,24,18,.90),rgba(154,40,27,.82));border-color:rgba(255,146,100,.58);}
+.roast-pop[data-mode="loss"]{background:linear-gradient(135deg,rgba(74,18,17,.91),rgba(145,32,27,.84));border-color:rgba(255,124,101,.64);}
 .roast-avatar{
-  width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;font-size:22px;
+  width:32px;height:32px;flex:0 0 32px;border-radius:10px;display:grid;place-items:center;font-size:19px;
   background:rgba(255,241,205,.12);border:1px solid rgba(255,224,158,.24);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
 }
 .roast-pop.show .roast-avatar{animation:roastFace .42s ease-out;}
 .roast-copy{min-width:0;flex:1;text-align:left;}
-.roast-kicker{display:block;margin-bottom:2px;font-size:9px;font-weight:900;letter-spacing:1.5px;color:#ffc968;}
-.roast-text{display:block;font-size:12.5px;line-height:1.42;font-weight:900;text-wrap:balance;}
-@keyframes roastKick{0%{transform:translateY(16px) scale(.94) rotate(-1deg)}65%{transform:translateY(-2px) scale(1.015) rotate(.3deg)}100%{transform:none}}
+.roast-kicker{display:block;margin-bottom:1px;font-size:8.5px;line-height:1.1;font-weight:900;letter-spacing:1.2px;color:#ffc968;}
+.roast-text{
+  display:-webkit-box;overflow:hidden;font-size:11.2px;line-height:1.25;font-weight:900;text-wrap:balance;
+  -webkit-box-orient:vertical;-webkit-line-clamp:2;
+}
+@keyframes roastKick{0%{transform:translateY(8px) scale(.97)}65%{transform:translateY(-1px) scale(1.005)}100%{transform:none}}
 @keyframes roastFace{0%{transform:scale(.65) rotate(-12deg)}65%{transform:scale(1.12) rotate(5deg)}100%{transform:none}}
 .board-wrap.final-hit{animation:boardHit .48s ease-out;}
 @keyframes boardHit{0%,100%{transform:translateX(0)}18%{transform:translateX(-7px)}36%{transform:translateX(6px)}54%{transform:translateX(-4px)}72%{transform:translateX(3px)}}
-.status{min-height:16px;text-align:center;font-size:11.5px;font-weight:800;color:var(--red);line-height:1.3;transition:color .18s ease;}
+.status{
+  position:relative;z-index:1;width:100%;max-height:44px;overflow:hidden;padding:1px 5px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;font-size:11px;font-weight:800;color:var(--red);line-height:1.3;transition:color .18s ease;
+}
 .status.ok{color:var(--green);}
 .status.info{color:#236a8c;}
 .status.warn{color:var(--red);}
@@ -282,7 +298,8 @@ button{font-family:inherit;color:inherit;}
 .prop:disabled{opacity:.55;filter:grayscale(.28);cursor:not-allowed;}
 .prop .p-ico{font-size:19px;line-height:1.15;}
 .prop .p-name{font-size:10.5px;font-weight:900;letter-spacing:.2px;}
-.prop .p-cnt{font-size:9.5px;font-weight:900;color:var(--gold-d);}
+.prop .p-cnt{font-size:9.5px;font-weight:900;color:var(--gold-d);font-variant-numeric:tabular-nums;}
+.prop .p-cnt.full{color:var(--green);}
 .prop.danger{background:linear-gradient(180deg,#fdf5f1,#f6e2d9);border-color:#e3bbaa;color:var(--red);}
 .voice-boost{
   width:100%;margin-top:7px;border:1.5px dashed #d9b875;border-radius:13px;padding:6px 9px;
@@ -312,6 +329,8 @@ button{font-family:inherit;color:inherit;}
 .voice-boost.success .vb-state{color:#fff;background:#2e9e6b;border-color:#26865a;}
 .voice-boost.error{border-color:#e2b0a4;background:linear-gradient(180deg,#fff8f4,#f5e3dc);}
 .voice-boost.error .vb-state{color:#fff;background:#b8523d;border-color:#a34431;}
+.voice-boost.claimed,.voice-boost.full{border-color:#d8c8a9;background:linear-gradient(180deg,#fffaf0,#f2e8d5);}
+.voice-boost.claimed .vb-state,.voice-boost.full .vb-state{color:#7d6349;background:#eadcc0;border-color:#d8c8a9;}
 @keyframes voicePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(210,140,35,.28)}50%{transform:scale(1.07);box-shadow:0 0 0 5px rgba(210,140,35,0)}}
 
 /* ---------- modal / toast ---------- */
@@ -350,6 +369,18 @@ button{font-family:inherit;color:inherit;}
   font-size:10.5px;font-weight:900;color:#8a5c0c;background:#fbe9bd;border:1px solid #e6c37c;
 }
 .result-tag.hide{display:none;}
+.supply-result{
+  display:none;margin-top:9px;padding:10px 12px;border-radius:14px;text-align:left;
+  border:1.5px dashed #d9b25e;background:linear-gradient(135deg,rgba(255,248,219,.96),rgba(248,229,176,.88));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.supply-result.show{display:block;animation:supplyIn .26s cubic-bezier(.2,.9,.3,1.05);}
+.supply-result.next{border-color:#d8c8a9;background:linear-gradient(135deg,rgba(255,251,241,.9),rgba(245,236,217,.82));}
+.supply-result .sr-kicker{display:block;font-size:9px;font-weight:900;letter-spacing:1.2px;color:#94651b;}
+.supply-result .sr-main{display:flex;align-items:center;gap:7px;margin-top:4px;font-size:13px;font-weight:900;color:#5a3b16;}
+.supply-result .sr-item{font-size:16px;color:#7a4d0b;font-variant-numeric:tabular-nums;}
+.supply-result .sr-note{display:block;margin-top:3px;font-size:10px;line-height:1.4;color:var(--ink2);}
+@keyframes supplyIn{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
 .result-roast{
   margin:0 0 10px;padding:11px 12px 12px;border-radius:13px;text-align:left;
   color:#ffe9c2;background:linear-gradient(135deg,#442817,#6e3b1e);
@@ -404,11 +435,18 @@ button{font-family:inherit;color:inherit;}
   .prop .p-ico{font-size:18px;}
   .prop .p-name{font-size:10px;}
   .dot{font-size:10.5px;}
-  .roast-pop{left:9px;right:9px;bottom:9px;padding:9px 10px;}
-  .roast-avatar{width:34px;height:34px;flex-basis:34px;font-size:20px;}
-  .roast-text{font-size:11.8px;}
+  .feedback-dock{flex-basis:46px;min-height:46px;}
+  .roast-pop{padding:4px 8px;}
+  .roast-avatar{width:29px;height:29px;flex-basis:29px;font-size:17px;}
+  .roast-text{font-size:10.8px;}
 }
 @media (max-height:680px){
+  .feedback-dock{flex-basis:42px;min-height:42px;margin:1px 0 3px;}
+  .roast-avatar{width:27px;height:27px;flex-basis:27px;font-size:16px;}
+  .prop{padding:6px 2px 5px;}
+  .prop .p-ico{font-size:17px;}
+  .voice-boost{margin-top:5px;padding:4px 8px;}
+  .voice-boost .vb-ico{width:27px;height:27px;flex-basis:27px;font-size:15px;}
   .brand h1{font-size:30px;}
   #heroCanvas{width:206px;height:100px;}
   .hero-wrap{margin-top:-4px;}
@@ -434,7 +472,7 @@ button{font-family:inherit;color:inherit;}
         <button id="hapticToggle">📳 震动开</button>
         <button id="helpBtn">📖 玩法</button>
       </div>
-      <p class="foot">每关道具各 1 次 · 喊“我是菜狗”可加次数 · 清空全部色块即通关</p>
+      <p class="foot">每档开局各 1 件 · 每 5 关随机补给 · 额外只能喊“我是菜狗”</p>
     </div>
   </section>
 
@@ -467,6 +505,8 @@ button{font-family:inherit;color:inherit;}
     </div>
     <div class="board-wrap" id="boardWrap">
       <canvas id="board"></canvas>
+    </div>
+    <div class="feedback-dock">
       <div class="roast-pop" id="roastPop" data-mode="combo" role="status" aria-live="assertive" aria-atomic="true">
         <span class="roast-avatar" id="roastAvatar" aria-hidden="true">😏</span>
         <span class="roast-copy">
@@ -474,8 +514,8 @@ button{font-family:inherit;color:inherit;}
           <strong class="roast-text" id="roastText"></strong>
         </span>
       </div>
+      <div class="status" id="statusMsg" role="status" aria-live="polite"></div>
     </div>
-    <div class="status" id="statusMsg" role="status" aria-live="polite"></div>
     <div class="props" id="propsBar">
       <button class="prop" data-prop="tube"><span class="p-ico">🧪</span><span class="p-name">空试管</span><span class="p-cnt" id="cnt-tube">×1</span></button>
       <button class="prop" data-prop="hint"><span class="p-ico">💡</span><span class="p-name">提示</span><span class="p-cnt" id="cnt-hint">×1</span></button>
@@ -486,7 +526,7 @@ button{font-family:inherit;color:inherit;}
       <span class="vb-ico" aria-hidden="true">🎙️</span>
       <span class="vb-copy">
         <span class="vb-title">菜狗补给站</span>
-        <span class="vb-hint" id="voiceHint">点一下，喊“我是菜狗” · 三种道具各 +1</span>
+        <span class="vb-hint" id="voiceHint" role="status" aria-live="polite">每 5 关可认菜 1 次 · 喊“我是菜狗”随机 +1</span>
       </span>
       <span class="vb-state" id="voiceState">开始</span>
     </button>
@@ -501,6 +541,7 @@ button{font-family:inherit;color:inherit;}
     <div class="result-lines" id="resultLines"></div>
     <div class="result-roast" id="resultRoast"><span class="rr-label">毒舌裁判 · 赛后总结</span><span id="resultRoastText"></span></div>
     <div class="result-tag hide" id="resultTag">完美通关</div>
+    <div class="supply-result" id="supplyResult" aria-live="polite"></div>
     <div class="sheet-actions">
       <button class="btn ghost" id="resultSecondary">关卡地图</button>
       <button class="btn primary" id="resultPrimary">下一关</button>
@@ -517,8 +558,10 @@ button{font-family:inherit;color:inherit;}
       <li><b>消除</b>：一个杯子装满 4 格同色就会消失。</li>
       <li><b>订单</b>：顶部订单记录需要完成的颜色杯数；清空全部色块才算通关。</li>
       <li><b>隐藏色</b>：灰色「?」色块露出后揭晓；<b>隐藏杯</b>上的数字表示还需消除几杯才能解锁。</li>
-      <li><b>步数</b>：每关有步数上限，用完前清空全部色块。道具每关各 1 次；重开会重置棋盘，但不返还已用道具。</li>
-      <li><b>菜狗补给</b>：点麦克风后喊“我是菜狗”，空试管、提示、撤回各 +1。需要允许麦克风权限，且识别依赖浏览器与网络。</li>
+      <li><b>步数</b>：每关有步数上限，用完前清空全部色块。重开会重置棋盘，但不会返还已用道具。</li>
+      <li><b>道具库存</b>：每个难度开局获得空试管、提示、撤回各 1 件，跨关保留；库存上限分别为 3 / 2 / 3。</li>
+      <li><b>自动补给</b>：首次通过每个难度的第 5、10、15…50 关，自动随机获得 1 件道具；满仓时改为 +300 分。</li>
+      <li><b>菜狗补给</b>：每 5 关为一个补给段，每段只能靠语音喊出“我是菜狗”，额外随机获得 1 件道具。需要允许麦克风权限，识别依赖浏览器与网络。</li>
       <li><b>毒舌裁判</b>：连击越高嘴越硬，翻车时更不留情。它只负责拱火，不影响规则和判定。</li>
     </ul>
     <button class="btn primary" id="helpClose">知道了</button>
@@ -532,8 +575,19 @@ button{font-family:inherit;color:inherit;}
 /* ===================== 常量 ===================== */
 const CAP = 4;
 const MAX_TUBES = 18;
-const SAVE_KEY = 'ybd_v3_save';
-const RESUME_KEY = 'ybd_v4_resume';
+const SAVE_KEY = 'ybd_v5_save';
+const LEGACY_SAVE_KEY = 'ybd_v3_save';
+const RESUME_KEY = 'ybd_v5_resume';
+const LEGACY_RESUME_KEY = 'ybd_v4_resume';
+const ECON_VERSION = 1;
+const SUPPLY_EVERY = 5;
+const SCORE_SUPPLY = 300;
+const PROP_KEYS = ['tube', 'hint', 'undo'];
+const PROP_META = {
+  tube:{name:'空试管', icon:'🧪', cap:3, weight:35, quip:'空试管 +1。多根杯子，省得你总说没地方倒。'},
+  hint:{name:'提示', icon:'💡', cap:2, weight:25, quip:'提示 +1。脑子今天请假，灯先替班。'},
+  undo:{name:'撤回', icon:'↩️', cap:3, weight:40, quip:'撤回 +1。留颗后悔药，免得你手比脑子快。'}
+};
 
 /* 10 个色相拉开 + 每种颜色一个图形标记（色弱也能区分） */
 const COLORS = [
@@ -659,36 +713,126 @@ const ROASTS = {
 };
 
 /* ===================== 存档 ===================== */
+function freshInventory(){
+  return {tube:1, hint:1, undo:1};
+}
+function emptyInventory(){
+  return {tube:0, hint:0, undo:0};
+}
+function normalizeInventory(raw, fallback){
+  const src = raw && typeof raw === 'object' ? raw : {};
+  const base = fallback || emptyInventory();
+  const out = {};
+  PROP_KEYS.forEach(k => {
+    const n = Number(src[k]);
+    const f = Number(base[k]);
+    const safe = Number.isFinite(n) ? Math.floor(n) : (Number.isFinite(f) ? Math.floor(f) : 0);
+    out[k] = Math.max(0, Math.min(PROP_META[k].cap, safe));
+  });
+  return out;
+}
+function cloneInventory(inv){
+  return normalizeInventory(inv, emptyInventory());
+}
+function inventoryIsFull(inv){
+  const safe = normalizeInventory(inv, emptyInventory());
+  return PROP_KEYS.every(k => safe[k] >= PROP_META[k].cap);
+}
 function defaultSave(){
+  const inventories = {};
+  const propRewardLog = {};
+  TIERS.forEach(t => {
+    inventories[t.key] = freshInventory();
+    propRewardLog[t.key] = {};
+  });
   return {
     levels:{}, unlocked:{nuofu:1,caigou:1,benben:1,tianlong:1},
     last:{tier:'nuofu', level:1},
-    sound:true, haptic:true, tutorialDone:false
+    sound:true, haptic:true, tutorialDone:false,
+    econVersion:ECON_VERSION, inventories, propRewardLog, voiceClaims:{}
   };
+}
+function readJsonStorage(key){
+  try{
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
 }
 function loadSave(){
   try{
-    const raw = localStorage.getItem(SAVE_KEY);
-    if(!raw) return defaultSave();
+    let raw = localStorage.getItem(SAVE_KEY);
+    let legacyFormat = false;
+    if(!raw){
+      raw = localStorage.getItem(LEGACY_SAVE_KEY);
+      legacyFormat = !!raw;
+    }
+    if(!raw){
+      const d = defaultSave();
+      const resume = readJsonStorage(RESUME_KEY) || readJsonStorage(LEGACY_RESUME_KEY);
+      const rt = resume && TIERS.find(t => t.key === resume.tier);
+      if(rt && resume.props) d.inventories[rt.key] = normalizeInventory(resume.props, freshInventory());
+      return d;
+    }
     const s = JSON.parse(raw);
     const d = defaultSave();
+    const levels = s.levels && typeof s.levels === 'object' ? s.levels : {};
+    const hasStoredInventory = !!(s.inventories && typeof s.inventories === 'object');
+    const inventories = {};
+    TIERS.forEach(t => {
+      const stored = hasStoredInventory && s.inventories[t.key];
+      inventories[t.key] = stored ? normalizeInventory(stored, emptyInventory()) : freshInventory();
+    });
+
+    // 旧版当前对局里的道具是玩家真实剩余量，首次迁移时不能重新发满。
+    if(!hasStoredInventory){
+      const resume = readJsonStorage(RESUME_KEY) || readJsonStorage(LEGACY_RESUME_KEY);
+      const rt = resume && TIERS.find(t => t.key === resume.tier);
+      if(rt && resume.props){
+        inventories[rt.key] = normalizeInventory(resume.props, freshInventory());
+      }
+    }
+
+    const propRewardLog = {};
+    const clearedMilestonesLegacy = legacyFormat || !hasStoredInventory || !s.econVersion;
+    TIERS.forEach(t => {
+      const stored = s.propRewardLog && s.propRewardLog[t.key];
+      propRewardLog[t.key] = stored && typeof stored === 'object' ? Object.assign({}, stored) : {};
+      if(clearedMilestonesLegacy){
+        Object.keys(levels[t.key] || {}).forEach(lvl => {
+          if(Number(lvl) > 0 && Number(lvl) % SUPPLY_EVERY === 0 && !propRewardLog[t.key][lvl]){
+            propRewardLog[t.key][lvl] = {kind:'legacy', amount:0, at:0};
+          }
+        });
+      }
+    });
+
     return {
-      levels: s.levels || {},
+      levels,
       unlocked: Object.assign(d.unlocked, s.unlocked || {}),
       last: s.last || d.last,
       sound: s.sound !== false,
       haptic: s.haptic !== false,
-      tutorialDone: !!s.tutorialDone
+      tutorialDone: !!s.tutorialDone,
+      econVersion:ECON_VERSION,
+      inventories,
+      propRewardLog,
+      voiceClaims: s.voiceClaims && typeof s.voiceClaims === 'object' ? Object.assign({}, s.voiceClaims) : {}
     };
   }catch(e){ return defaultSave(); }
 }
 let save = loadSave();
+for(let i = 0; i < TIERS.length; i++){
+  const key = TIERS[i].key;
+  if(!save.inventories[key]) save.inventories[key] = freshInventory();
+  if(!save.propRewardLog[key]) save.propRewardLog[key] = {};
+}
 function persist(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(save)); }catch(e){} }
+persist();
 function levelRec(tier, lvl){ const m = save.levels[tier] || {}; return m[String(lvl)] || null; }
-function saveRec(tier, lvl, rec){
+function saveRec(tier, lvl, rec, deferPersist){
   if(!save.levels[tier]) save.levels[tier] = {};
   save.levels[tier][String(lvl)] = rec;
-  persist();
+  if(!deferPersist) persist();
 }
 function clearedCount(tier){ return Object.keys(save.levels[tier] || {}).length; }
 function starsOf(tier){
@@ -696,6 +840,65 @@ function starsOf(tier){
   return Object.values(m).reduce((a, r) => a + (r.stars || 0), 0);
 }
 function unlockedOf(tier){ return Math.min(50, Math.max(1, save.unlocked[tier] || 1)); }
+function inventoryForTier(tierKey, create){
+  if(!save.inventories) save.inventories = {};
+  if(!save.inventories[tierKey]){
+    if(!create) return emptyInventory();
+    save.inventories[tierKey] = freshInventory();
+  }
+  save.inventories[tierKey] = normalizeInventory(save.inventories[tierKey], emptyInventory());
+  return save.inventories[tierKey];
+}
+function syncInventoryFromGame(){
+  if(!game) return;
+  save.inventories[game.tier.key] = normalizeInventory(game.props, emptyInventory());
+}
+function propRewardLedger(tierKey){
+  if(!save.propRewardLog) save.propRewardLog = {};
+  if(!save.propRewardLog[tierKey]) save.propRewardLog[tierKey] = {};
+  return save.propRewardLog[tierKey];
+}
+function supplySectionFor(level){
+  return Math.max(1, Math.ceil(clamp(Number(level) || 1, 1, 50) / SUPPLY_EVERY));
+}
+function supplySectionRange(level){
+  const section = supplySectionFor(level);
+  return {section, start:(section - 1) * SUPPLY_EVERY + 1, end:section * SUPPLY_EVERY};
+}
+function voiceClaimKey(tierKey, level){
+  return tierKey + ':' + supplySectionFor(level);
+}
+function voiceClaimedForCurrent(){
+  if(!game) return false;
+  return !!save.voiceClaims[voiceClaimKey(game.tier.key, game.level)];
+}
+function propsAllFull(){
+  return !!game && inventoryIsFull(game.props);
+}
+function awardSupply(kind, amount){
+  if(!game || !PROP_META[kind]) return;
+  game.props[kind] = Math.max(0, Math.min(PROP_META[kind].cap, game.props[kind] + (amount || 1)));
+}
+function rollSupply(mercy){
+  const inv = normalizeInventory(game ? game.props : emptyInventory(), emptyInventory());
+  const available = PROP_KEYS.filter(k => inv[k] < PROP_META[k].cap);
+  if(!available.length){
+    return {kind:'score', amount:SCORE_SUPPLY, name:'分数', icon:'💎', quip:'仓库满了，这箱直接折现。至少没白过。'};
+  }
+  const weights = available.map(k => PROP_META[k].weight * (mercy && inv[k] === 0 ? 2 : 1));
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  let kind = available[available.length - 1];
+  for(let i = 0; i < available.length; i++){
+    r -= weights[i];
+    if(r < 0){ kind = available[i]; break; }
+  }
+  return {kind, amount:1, name:PROP_META[kind].name, icon:PROP_META[kind].icon, quip:PROP_META[kind].quip};
+}
+function nextSupplyMilestone(level){
+  const next = (Math.floor((Number(level) || 0) / SUPPLY_EVERY) + 1) * SUPPLY_EVERY;
+  return next <= 50 ? next : null;
+}
 
 /* ===================== 随机工具 ===================== */
 function randInt(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -1022,7 +1225,6 @@ let particles = [];
 let helpAuto = false;
 let resultAction = null;
 const VOICE_PHRASE = '我是菜狗';
-const VOICE_REWARD = {tube:1, hint:1, undo:1};
 const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
 let voiceRecognition = null;
 let voiceListening = false;
@@ -1072,10 +1274,15 @@ function unpackSnapshot(snap){
   };
 }
 function clearGameProgress(){
-  try{ localStorage.removeItem(RESUME_KEY); }catch(e){}
+  try{
+    localStorage.removeItem(RESUME_KEY);
+    localStorage.removeItem(LEGACY_RESUME_KEY);
+  }catch(e){}
 }
 function saveGameProgress(){
   if(!game || game.finished || !game.tubes || !game.initialOrders) return;
+  syncInventoryFromGame();
+  persist();
   try{
     localStorage.setItem(RESUME_KEY, JSON.stringify({
       v:1,
@@ -1097,7 +1304,7 @@ function saveGameProgress(){
       scoreCombo:game.scoreCombo,
       combo:game.combo,
       maxCombo:game.maxCombo,
-      props:{...game.props},
+      props:cloneInventory(game.props),
       usedHint:game.usedHint,
       usedUndo:game.usedUndo,
       history:game.history.map(packSnapshot)
@@ -1106,7 +1313,7 @@ function saveGameProgress(){
 }
 function loadGameProgress(){
   try{
-    const data = JSON.parse(localStorage.getItem(RESUME_KEY) || 'null');
+    const data = readJsonStorage(RESUME_KEY) || readJsonStorage(LEGACY_RESUME_KEY);
     if(!data || data.v !== 1 || !Array.isArray(data.tubes) || !data.tubes.length) return null;
     if(!TIERS.some(t => t.key === data.tier)) return null;
     return data;
@@ -1116,6 +1323,12 @@ function restoreGameProgress(data){
   if(!data) return false;
   const tier = TIERS.find(t => t.key === data.tier);
   if(!tier || !Array.isArray(data.tubes) || !Array.isArray(data.initialOrders)) return false;
+  const resumeLimit = Number(data.limit);
+  const resumePar = Number(data.par);
+  const resumeSteps = Number(data.steps) || 0;
+  if(!Number.isFinite(resumeLimit) || resumeLimit < 1 || !Number.isFinite(resumePar) || resumePar < 1 || resumeLimit < resumePar || resumeSteps < 0 || resumeSteps >= resumeLimit){
+    return false;
+  }
   const initialOrders = data.initialOrders.map(o => ({color:o.color, need:o.need, got:0}));
   game = {
     tier,
@@ -1128,21 +1341,22 @@ function restoreGameProgress(data){
     initialOrders,
     orders:(data.orders || initialOrders).map(o => ({color:o.color, need:o.need, got:o.got || 0})),
     cleared:new Set(data.cleared || []),
-    steps:data.steps || 0,
-    limit:data.limit || 1,
-    par:data.par || 1,
+    steps:resumeSteps,
+    limit:resumeLimit,
+    par:resumePar,
     score:data.score || 0,
     scorePour:data.scorePour || 0,
     scoreClear:data.scoreClear || 0,
     scoreCombo:data.scoreCombo || 0,
     combo:data.combo || 0,
     maxCombo:data.maxCombo || 0,
-    props:Object.assign({tube:1, hint:1, undo:1}, data.props || {}),
+    props:cloneInventory(inventoryForTier(tier.key, true)),
     history:(data.history || []).map(unpackSnapshot),
     usedHint:!!data.usedHint,
     usedUndo:!!data.usedUndo,
     fxCleared:{}, fxReveal:{}, fxPulse:{}, fxShake:{},
     pressureSeen:new Set(),
+    milestoneReward:null, milestoneScoreBonus:0,
     finished:false
   };
   mapTier = tier.key;
@@ -1150,6 +1364,7 @@ function restoreGameProgress(data){
   persist();
   selected = null; hintMove = null; anim = null;
   floaters = []; particles = [];
+  $('resultModal').classList.remove('show', 'loss');
   $('lpTier').textContent = tier.name;
   $('lpLevel').textContent = game.level + '/50';
   $('comboBadge').classList.remove('show', 'hot', 'blazing');
@@ -1173,7 +1388,7 @@ function showScreen(name){
     renderMap();
   } else if(name === 'game'){
     layoutBoard();
-    setVoiceBoostUI('idle');
+    setVoiceBoostUI(defaultVoiceState());
   }
 }
 
@@ -1193,13 +1408,27 @@ function status(msg, tone){
 }
 
 /* ===================== 语音补给 ===================== */
+function defaultVoiceState(){
+  if(!game) return 'idle';
+  if(game.finished) return 'disabled';
+  if(voiceClaimedForCurrent()) return 'claimed';
+  if(propsAllFull()) return 'full';
+  return 'idle';
+}
+
+function voiceIdleText(){
+  if(!game) return '每 5 关可认菜 1 次 · 喊“我是菜狗”随机 +1';
+  const sec = supplySectionRange(game.level);
+  return '第 ' + sec.start + '–' + sec.end + ' 关可认菜 1 次 · 喊“我是菜狗”随机 +1';
+}
+
 function setVoiceBoostUI(state, detail){
   const btn = $('voiceBoost');
   if(!btn) return;
   const hint = $('voiceHint');
   const badge = $('voiceState');
   clearTimeout(voiceResetTimer);
-  btn.classList.remove('listening', 'success', 'error');
+  btn.classList.remove('listening', 'success', 'error', 'claimed', 'full');
   btn.disabled = false;
 
   if(!SpeechRecognitionCtor){
@@ -1209,52 +1438,76 @@ function setVoiceBoostUI(state, detail){
     badge.textContent = '不支持';
     return;
   }
+  if(!state) state = defaultVoiceState();
   if(game && game.finished && state !== 'success') state = 'disabled';
 
   if(state === 'listening'){
     btn.classList.add('listening');
-    hint.textContent = detail || '正在听，请说“我是菜狗”';
+    hint.textContent = detail || '正在听，请完整说“我是菜狗”';
     badge.textContent = '聆听中';
   } else if(state === 'success'){
     btn.classList.add('success');
-    hint.textContent = detail || '三种道具各 +1，补给已存入本局';
+    hint.textContent = detail || '随机补给已入库';
     badge.textContent = '+1';
   } else if(state === 'error'){
     btn.classList.add('error');
     hint.textContent = detail || '没听清，再点一下重试';
     badge.textContent = '重试';
+  } else if(state === 'claimed'){
+    btn.classList.add('claimed');
+    btn.disabled = true;
+    const sec = game ? supplySectionRange(game.level) : null;
+    hint.textContent = detail || (sec ? '第 ' + sec.start + '–' + sec.end + ' 关补给已领 · 下一段再来' : '本段补给已领');
+    badge.textContent = '已领';
+  } else if(state === 'full'){
+    btn.classList.add('full');
+    btn.disabled = true;
+    hint.textContent = detail || '道具满了 · 先用掉再认菜';
+    badge.textContent = '满仓';
   } else if(state === 'disabled'){
     btn.disabled = true;
     hint.textContent = '本关已结束，下一关再来补给';
     badge.textContent = '结束';
   } else {
-    hint.textContent = '点一下，喊“我是菜狗” · 三种道具各 +1';
-    badge.textContent = '开始';
+    hint.textContent = detail || voiceIdleText();
+    badge.textContent = '开喊';
   }
+  if(state === 'success') btn.disabled = true;
 }
 
 function resetVoiceBoostSoon(delay){
   clearTimeout(voiceResetTimer);
   voiceResetTimer = setTimeout(() => {
     voiceResetTimer = 0;
-    if(!voiceListening) setVoiceBoostUI('idle');
+    if(!voiceListening) setVoiceBoostUI(defaultVoiceState());
   }, delay);
 }
 
 function isVoicePhrase(text){
   const compact = String(text || '').replace(/[\s，。！？、,.!?;；:："'“”‘’（）()【】\[\]…—_-]/g, '');
-  return compact.includes(VOICE_PHRASE);
+  return compact === VOICE_PHRASE || compact === '我是菜狗啊' || compact === '我是菜狗呀' || compact === '我是菜狗啦' || compact === '我是菜狗吧';
 }
 
 function grantVoiceBoost(){
   if(!game || game.finished) return false;
-  Object.keys(VOICE_REWARD).forEach(k => { game.props[k] += VOICE_REWARD[k]; });
+  if(voiceClaimedForCurrent()) return false;
+  if(propsAllFull()) return false;
+  const reward = rollSupply(true);
+  if(reward.kind === 'score') return false;
+  awardSupply(reward.kind, reward.amount);
+  const sec = supplySectionRange(game.level);
+  save.voiceClaims[voiceClaimKey(game.tier.key, game.level)] = {
+    kind:reward.kind, amount:reward.amount, at:Date.now(), section:sec.section
+  };
+  syncInventoryFromGame();
+  persist();
   updateHUD();
-  saveGameProgress();
+  setVoiceBoostUI('success', '随机补给到账：' + reward.icon + ' ' + reward.name + ' ×' + reward.amount);
   sfx('win');
   buzz([12, 28, 12]);
-  status('“我是菜狗”认证成功：空试管、提示、撤回各 +1', 'ok');
-  toast('菜狗补给到账：三种道具各 +1');
+  status('“我是菜狗”认证成功：' + reward.name + ' +' + reward.amount, 'ok');
+  toast('菜狗补给到账：' + reward.icon + ' ' + reward.name + ' +' + reward.amount);
+  showRoast(reward.quip, 'break', '菜狗认证 · 第 ' + sec.start + '–' + sec.end + ' 关', 2400);
   return true;
 }
 
@@ -1266,7 +1519,19 @@ function stopVoiceRecognition(){
 
 function beginVoiceBoost(){
   ensureAudio();
-  if(!game || game.finished){ toast('当前没有可补给的关卡'); return; }
+  if(!game){ toast('当前没有可补给的关卡'); return; }
+  const gate = defaultVoiceState();
+  if(gate === 'claimed'){
+    setVoiceBoostUI('claimed');
+    toast('这一段已经认过菜了，下一段再来');
+    return;
+  }
+  if(gate === 'full'){
+    setVoiceBoostUI('full');
+    toast('道具满仓，先用掉一件再喊');
+    return;
+  }
+  if(gate === 'disabled'){ toast('当前没有可补给的关卡'); return; }
   if(!SpeechRecognitionCtor){
     setVoiceBoostUI('idle');
     toast('当前浏览器不支持语音识别，请使用 Chrome / Edge');
@@ -1274,7 +1539,7 @@ function beginVoiceBoost(){
   }
   if(voiceListening){
     stopVoiceRecognition();
-    setVoiceBoostUI('idle', '已停止聆听，再点一次重试');
+    setVoiceBoostUI(defaultVoiceState(), '已停止聆听，再点一次重试');
     return;
   }
 
@@ -1311,9 +1576,11 @@ function beginVoiceBoost(){
         const alt = result[j];
         if(!alt || !alt.transcript) continue;
         if(isVoicePhrase(alt.transcript)){
-          voiceRewarded = true;
-          grantVoiceBoost();
-          setVoiceBoostUI('success');
+          if(grantVoiceBoost()){
+            voiceRewarded = true;
+          } else {
+            setVoiceBoostUI(defaultVoiceState());
+          }
           try{ rec.stop(); }catch(e){}
           break;
         }
@@ -1348,7 +1615,7 @@ function beginVoiceBoost(){
     if(voiceRewarded){
       resetVoiceBoostSoon(2600);
     } else if(voiceStopRequested){
-      setVoiceBoostUI('idle', '已停止聆听，再点一次重试');
+      setVoiceBoostUI(defaultVoiceState(), '已停止聆听，再点一次重试');
     } else if(errorText){
       resetVoiceBoostSoon(3200);
     } else {
@@ -1431,8 +1698,8 @@ function maybeStepPressure(){
 }
 function tauntWrong(kind, reason){
   const text = pickRoast(ROASTS.wrong[kind] || ROASTS.wrong.pour);
-  toast(text, 'mock');
   status(reason || text, 'warn');
+  showRoast(text, 'danger', '无效操作', 1500);
   sfx('mock');
   buzz([8, 28, 8]);
 }
@@ -1525,6 +1792,15 @@ function renderMap(){
       const d = document.createElement('button');
       d.className = 'dot';
       d.textContent = String(lvl);
+      if(lvl % SUPPLY_EVERY === 0){
+        const claimed = propRewardLedger(tier.key)[String(lvl)];
+        const mark = document.createElement('span');
+        mark.className = 'supply-mark' + (claimed ? ' got' : '');
+        mark.textContent = claimed ? '✓' : '🎁';
+        mark.title = claimed ? '本关随机补给已领取' : '首次通关随机道具';
+        d.appendChild(mark);
+        d.title = mark.title;
+      }
       if(rec){
         d.classList.add('cleared', 's' + clamp(rec.stars || 1, 1, 3));
       } else if(unlocked){
@@ -1548,6 +1824,7 @@ function startLevel(tierKey, level){
   const tier = TIERS.find(t => t.key === tierKey) || TIERS[0];
   const lv = buildLevel(tier, level);
   if(!lv){ toast('生成失败，请重试'); return; }
+  $('resultModal').classList.remove('show', 'loss');
 
   const lockedSet = new Set(lv.locks.map(l => l.ti));
   const tubes = makeCells(lv.state);
@@ -1566,11 +1843,12 @@ function startLevel(tierKey, level){
     steps: 0, limit: lv.limit, par: lv.par,
     score: 0, scorePour: 0, scoreClear: 0, scoreCombo: 0,
     combo: 0, maxCombo: 0,
-    props: {tube:1, hint:1, undo:1},
+    props: cloneInventory(inventoryForTier(tier.key, true)),
     history: [],
     usedHint: false, usedUndo: false,
     fxCleared: {}, fxReveal: {}, fxPulse: {}, fxShake: {},
     pressureSeen: new Set(),
+    milestoneReward: null, milestoneScoreBonus: 0,
     finished: false
   };
   mapTier = tierKey;
@@ -1643,9 +1921,10 @@ function updateHUD(){
   } else {
     cb.classList.remove('show', 'hot', 'blazing');
   }
-  $('cnt-tube').textContent = '×' + game.props.tube;
-  $('cnt-hint').textContent = '×' + game.props.hint;
-  $('cnt-undo').textContent = '×' + game.props.undo;
+  game.props = normalizeInventory(game.props, emptyInventory());
+  $('cnt-tube').textContent = '×' + game.props.tube + '/' + PROP_META.tube.cap;
+  $('cnt-hint').textContent = '×' + game.props.hint + '/' + PROP_META.hint.cap;
+  $('cnt-undo').textContent = '×' + game.props.undo + '/' + PROP_META.undo.cap;
   document.querySelectorAll('#propsBar .prop').forEach(b => {
     const k = b.dataset.prop;
     if(k === 'reset') return;
@@ -1654,14 +1933,24 @@ function updateHUD(){
     if(k === 'undo') dis = dis || !game.history.length;
     if(game.finished) dis = true;
     b.disabled = dis;
+    const cnt = b.querySelector('.p-cnt');
+    if(cnt) cnt.classList.toggle('full', game.props[k] >= PROP_META[k].cap);
   });
   if(game.finished){
     stopVoiceRecognition();
     setVoiceBoostUI('disabled');
+  } else if(!voiceListening && !voiceRewarded){
+    setVoiceBoostUI(defaultVoiceState());
   }
 }
 
 /* ===================== 弹窗 ===================== */
+function winConditionMet(){
+  if(!game) return false;
+  return allColorsCleared(game.tubes, game.cleared) &&
+    game.orders.every(o => o.got >= o.need);
+}
+
 function starsFor(steps, par, limit){
   if(steps <= par) return 3;
   const t2 = Math.min(limit - 1, Math.max(par + 1, Math.ceil(par * 1.22)));
@@ -1670,9 +1959,12 @@ function starsFor(steps, par, limit){
 }
 
 function showResult(win){
+  if(!game) return;
+  if(win && !winConditionMet()) return;
   const winStars = win ? starsFor(game.steps, game.par, game.limit) : 0;
   const bonus = win ? Math.max(0, game.limit - game.steps) * 15 : 0;
-  const total = win ? game.score + bonus : game.score;
+  const supplyScore = win ? (game.milestoneScoreBonus || 0) : 0;
+  const total = win ? game.score + bonus + supplyScore : game.score;
   const remaining = game.tubes.reduce((n, t, i) => game.cleared.has(i) ? n : n + t.length, 0);
   const maxCombo = game.maxCombo || 0;
   const perfect = win && !game.usedHint && !game.usedUndo;
@@ -1694,6 +1986,7 @@ function showResult(win){
     lines.push(['消除得分', game.scoreClear]);
     lines.push(['连击得分', game.scoreCombo]);
     lines.push(['剩余步数奖励', bonus]);
+    if(supplyScore) lines.push(['满仓补给折现', '+' + supplyScore]);
     lines.push(['总分', total, true]);
   } else {
     const band = remaining <= 4 ? 'close' : (maxCombo >= 6 ? 'hot' : (remaining >= 8 ? 'cold' : 'normal'));
@@ -1717,6 +2010,45 @@ function showResult(win){
     tag.textContent = base + (maxCombo >= 2 ? ' · 最高连击 x' + maxCombo : '');
   } else {
     tag.textContent = '最高连击 x' + maxCombo + ' · 还剩 ' + remaining + ' 格';
+  }
+
+  const supply = $('supplyResult');
+  supply.className = 'supply-result';
+  supply.innerHTML = '';
+  if(win){
+    const reward = game.milestoneReward;
+    if(reward){
+      supply.classList.add('show');
+      const isScore = reward.kind === 'score';
+      const main = isScore
+        ? '<span class="sr-item">💎 分数 +' + reward.amount + '</span>'
+        : '<span class="sr-item">' + reward.icon + ' ' + reward.name + ' ×' + reward.amount + '</span>';
+      supply.innerHTML =
+        '<span class="sr-kicker">第 ' + game.level + ' 关 · 裁判开箱</span>' +
+        '<div class="sr-main">' + main + '</div>' +
+        '<span class="sr-note">' + reward.quip + '</span>';
+    } else {
+      const milestoneClaim = game.level % SUPPLY_EVERY === 0
+        ? propRewardLedger(game.tier.key)[String(game.level)]
+        : null;
+      const next = nextSupplyMilestone(game.level);
+      supply.classList.add('show', 'next');
+      if(milestoneClaim){
+        supply.innerHTML =
+          '<span class="sr-kicker">本关补给已结算</span>' +
+          '<div class="sr-main">刷关不重复掉货，下一次靠新关卡</div>';
+      } else if(next){
+        const left = next - game.level;
+        supply.innerHTML =
+          '<span class="sr-kicker">下一份自动补给</span>' +
+          '<div class="sr-main">再过关 ' + left + ' 关 · 第 ' + next + ' 关随机开箱</div>' +
+          '<span class="sr-note">每 5 关一件，别把库存当自助餐。</span>';
+      } else {
+        supply.innerHTML =
+          '<span class="sr-kicker">本档自动补给</span>' +
+          '<div class="sr-main">50 关补给已走完，剩下全靠嘴硬。</div>';
+      }
+    }
   }
 
   const primary = $('resultPrimary');
@@ -1749,30 +2081,48 @@ function openHelp(auto){
 }
 
 function finishWin(){
-  if(game.finished) return;
+  if(!game || game.finished || !winConditionMet()) return;
+  const resultGame = game;
   game.finished = true;
   clearGameProgress();
   const stars = starsFor(game.steps, game.par, game.limit);
   const bonus = Math.max(0, game.limit - game.steps) * 15;
-  const total = game.score + bonus;
   const prev = levelRec(game.tier.key, game.level);
+  let reward = null;
+  let supplyScore = 0;
+
+  if(!prev && game.level % SUPPLY_EVERY === 0){
+    const ledger = propRewardLedger(game.tier.key);
+    if(!ledger[String(game.level)]){
+      reward = rollSupply(false);
+      ledger[String(game.level)] = {kind:reward.kind, amount:reward.amount, at:Date.now()};
+      if(reward.kind === 'score') supplyScore = reward.amount;
+      else awardSupply(reward.kind, reward.amount);
+    }
+  }
+  game.milestoneReward = reward;
+  game.milestoneScoreBonus = supplyScore;
+
+  const total = game.score + bonus + supplyScore;
   saveRec(game.tier.key, game.level, {
     stars: Math.max(prev ? prev.stars || 0 : 0, stars),
     score: Math.max(prev ? prev.score || 0 : 0, total),
     steps: game.steps
-  });
+  }, true);
   const nextLv = Math.min(50, game.level + 1);
   save.unlocked[game.tier.key] = Math.max(unlockedOf(game.tier.key), nextLv);
   if(game.level < 50) save.last = {tier:game.tier.key, level:game.level + 1};
+  syncInventoryFromGame();
   persist();
   updateHUD();
   sfx('win');
-  buzz([12, 34, 12, 34, 22]);
-  setTimeout(() => showResult(true), 480);
+  buzz(reward ? [12, 34, 12, 34, 22, 40, 18] : [12, 34, 12, 34, 22]);
+  setTimeout(() => { if(game === resultGame) showResult(true); }, 480);
 }
 
 function finishLose(){
-  if(game.finished) return;
+  if(!game || game.finished) return;
+  const resultGame = game;
   game.finished = true;
   clearGameProgress();
   updateHUD();
@@ -1783,7 +2133,7 @@ function finishLose(){
   void board.offsetWidth;
   board.classList.add('final-hit');
   setTimeout(() => board.classList.remove('final-hit'), 520);
-  setTimeout(() => showResult(false), 420);
+  setTimeout(() => { if(game === resultGame) showResult(false); }, 420);
 }
 /* ===================== Canvas 渲染 ===================== */
 const boardCanvas = $('board');
@@ -2442,6 +2792,7 @@ function snapshot(){
 
 function doPour(a, b, r){
   const now = performance.now();
+  const pourGame = game;
   const beforeTubes = cloneCells(game.tubes);
   game.history.push(snapshot());
   applyCellMove(game.tubes, a, b);
@@ -2479,7 +2830,7 @@ function doPour(a, b, r){
   buzz(8);
   updateHUD();
 
-  setTimeout(() => resolveMove(), 310);
+  setTimeout(() => { if(game === pourGame) resolveMove(); }, 310);
 }
 
 function resolveMove(){
@@ -2516,9 +2867,7 @@ function resolveMove(){
   }
 
   saveGameProgress();
-  const boardCleared = allColorsCleared(game.tubes, game.cleared);
-  const ordersDone = game.orders.every(o => o.got >= o.need);
-  if(boardCleared && ordersDone){ finishWin(); return; }
+  if(winConditionMet()){ finishWin(); return; }
   if(game.steps >= game.limit){ finishLose(); return; }
   maybeStepPressure();
   if(!hasAnyMove(game.tubes, new Set(game.locks.keys()), game.cleared)){
@@ -2747,7 +3096,13 @@ window.addEventListener('pagehide', () => {
   if(currentScreen === 'game' && game && !game.finished && !anim) saveGameProgress();
 });
 
+function syncViewportHeight(){
+  const vv = window.visualViewport;
+  const height = Math.round(vv && vv.height ? vv.height : window.innerHeight);
+  document.documentElement.style.setProperty('--app-height', height + 'px');
+}
 window.addEventListener('resize', () => {
+  syncViewportHeight();
   if(currentScreen === 'home'){ layoutHero(); }
   else if(currentScreen === 'game'){ layoutBoard(); }
 });
@@ -2759,6 +3114,7 @@ window.addEventListener('orientationchange', () => {
 });
 if(window.visualViewport){
   window.visualViewport.addEventListener('resize', () => {
+    syncViewportHeight();
     if(currentScreen === 'home') layoutHero();
     else if(currentScreen === 'game') layoutBoard();
   });
@@ -2775,6 +3131,7 @@ function loop(now){
   requestAnimationFrame(loop);
 }
 
+syncViewportHeight();
 renderHome();
 layoutHero();
 updateSoundLabels();
